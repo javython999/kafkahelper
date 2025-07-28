@@ -2,102 +2,161 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
     <!-- Sidebar Navigation -->
-    <nav th:fragment="sidebar" class="pcoded-navbar">
-        <div class="navbar-wrapper">
-            <div class="navbar-brand header-logo">
-                <a href="/" class="b-brand">
-                    <div class="b-bg">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <span class="b-title">Kafka Helper</span>
-                </a>
-                <a class="mobile-menu" id="mobile-collapse" href="javascript:"><span></span></a>
-            </div>
-            <div class="navbar-content scroll-div">
-                <ul class="nav pcoded-inner-navbar">
-                    <li class="nav-item pcoded-menu-caption">
-                        <label>Navigation</label>
-                    </li>
-                    <li class="nav-item" th:classappend="${activeTab == 'dashboard'} ? 'active' : ''">
-                        <a href="/" class="nav-link">
-                            <span class="pcoded-micon"><i class="fas fa-home"></i></span>
-                            <span class="pcoded-mtext">Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item pcoded-menu-caption">
-                        <label>Kafka Management</label>
-                    </li>
-                    <li class="nav-item" th:classappend="${activeTab == 'brokers'} ? 'active' : ''">
-                        <a href="/kafka/brokers" class="nav-link">
-                            <span class="pcoded-micon"><i class="fas fa-server"></i></span>
-                            <span class="pcoded-mtext">Brokers</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" th:classappend="${activeTab == 'topics'} ? 'active' : ''">
-                        <a href="/kafka/topics" class="nav-link">
-                            <span class="pcoded-micon"><i class="fas fa-list"></i></span>
-                            <span class="pcoded-mtext">Topics</span>
-                        </a>
-                    </li>
-                    <li class="nav-item pcoded-menu-caption">
-                        <label>Kafka Operations</label>
-                    </li>
-                    <li class="nav-item" th:classappend="${activeTab == 'producer'} ? 'active' : ''">
-                        <a href="/kafka/producer" class="nav-link">
-                            <span class="pcoded-micon"><i class="fas fa-upload"></i></span>
-                            <span class="pcoded-mtext">Producer</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" th:classappend="${activeTab == 'consumer'} ? 'active' : ''">
-                        <a href="/kafka/consumer" class="nav-link">
-                            <span class="pcoded-micon"><i class="fas fa-download"></i></span>
-                            <span class="pcoded-mtext">Consumer</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    
-    <!-- Top Header -->
-    <header th:fragment="header" class="navbar pcoded-header navbar-expand-lg navbar-light">
+    <div th:fragment="navigation" class="navbar-wrapper">
         <div class="m-header">
-            <a class="mobile-menu" id="mobile-collapse1" href="javascript:"><span></span></a>
-            <a href="/" class="b-brand">
-                <div class="b-bg">
-                    <i class="fas fa-server"></i>
-                </div>
-                <span class="b-title">Kafka Helper</span>
+            <a href="index.html" class="b-brand">
+                <!-- ========   change your logo hear   ============ -->
+                <img src="/images/logo.svg" alt="" class="logo logo-lg">
+                <img src="assets/images/logo-sm.svg" alt="" class="logo logo-sm">
             </a>
         </div>
-        <a class="mobile-menu" id="mobile-header" href="javascript:">
-            <i class="feather icon-more-horizontal"></i>
-        </a>
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav mr-auto">
-                <li><a href="javascript:" class="full-screen" onclick="toggleFullScreen()"><i class="fas fa-expand"></i></a></li>
-            </ul>
-            <ul class="navbar-nav ml-auto">
-                <li>
-                    <div class="dropdown drp-user">
-                        <a href="javascript:" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fas fa-user"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right profile-notification">
-                            <div class="pro-head">
-                                <img src="/images/user.jpg" class="img-radius" alt="User-Profile-Image">
-                                <span>Admin</span>
-                            </div>
-                            <ul class="pro-body">
-                                <li><a href="javascript:" class="dropdown-item"><i class="fas fa-user"></i> Profile</a></li>
-                                <li><a href="javascript:" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a></li>
-                                <li><a href="javascript:" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-                            </ul>
-                        </div>
-                    </div>
+        <div class="navbar-content ps ps--active-y">
+            <ul class="pc-navbar">
+                <li class="pc-item pc-caption">
+                    <label>Navigation</label>
                 </li>
+                <li class="pc-item active">
+                    <a href="/" class="pc-link "><span class="pc-micon"><i class="material-icons-two-tone">home</i></span><span class="pc-mtext">Dashboard</span></a>
+                </li>
+                <li class="pc-item pc-caption">
+                    <label>Kafka</label>
+                    <span>Management</span>
+                </li>
+                <li class="pc-item">
+                    <a href="/kafka/brokers" class="pc-link">
+                        <span class="pc-micon">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 width="24"
+                                 height="24"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor"
+                                 stroke-width="2"
+                                 stroke-linecap="round"
+                                 stroke-linejoin="round"
+                                 class="feather feather-cpu">
+                                <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                                <rect x="9" y="9" width="6" height="6"></rect>
+                                <line x1="9" y1="1" x2="9" y2="4"></line>
+                                <line x1="15" y1="1" x2="15" y2="4"></line>
+                                <line x1="9" y1="20" x2="9" y2="23"></line>
+                                <line x1="15" y1="20" x2="15" y2="23"></line>
+                                <line x1="20" y1="9" x2="23" y2="9"></line>
+                                <line x1="20" y1="14" x2="23" y2="14"></line>
+                                <line x1="1" y1="9" x2="4" y2="9"></line>
+                                <line x1="1" y1="14" x2="4" y2="14"></line>
+                            </svg>
+                        </span>
+                        <span class="pc-mtext">Broker</span>
+                    </a>
+                </li>
+                <li class="pc-item">
+                    <a href="/kafka/topics" class="pc-link">
+                        <span class="pc-micon">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 width="24"
+                                 height="24"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor"
+                                 stroke-width="2"
+                                 stroke-linecap="round"
+                                 stroke-linejoin="round"
+                                 class="feather feather-list">
+                                <line x1="8" y1="6" x2="21" y2="6"></line>
+                                <line x1="8" y1="12" x2="21" y2="12"></line>
+                                <line x1="8" y1="18" x2="21" y2="18"></line>
+                                <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                                <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                                <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                            </svg>
+                        </span>
+                        <span class="pc-mtext">Topic</span>
+                    </a>
+                </li>
+                <li class="pc-item">
+                    <a href="icon-feather.html" class="pc-link "><span class="pc-micon"><i class="material-icons-two-tone">history_edu</i></span><span class="pc-mtext">Icons</span></a>
+                </li>
+                <li class="pc-item pc-caption">
+                    <label>Forms</label>
+                </li>
+                <li class="pc-item pc-hasmenu">
+                    <a href="#!" class="pc-link "><span class="pc-micon"><i class="material-icons-two-tone">edit</i></span><span class="pc-mtext">Forms Elements</span><span class="pc-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></span></a>
+                    <ul class="pc-submenu" style="display: none;">
+                        <li class="pc-item"><a class="pc-link" href="form_elements.html">Form Basic</a></li>
+                        <li class="pc-item"><a class="pc-link" href="form2_input_group.html">Input Groups</a></li>
+                        <li class="pc-item"><a class="pc-link" href="form2_checkbox.html">Checkbox</a></li>
+                        <li class="pc-item"><a class="pc-link" href="form2_radio.html">Radio</a></li>
+                    </ul>
+                </li>
+                <li class="pc-item pc-caption">
+                    <label>table</label>
+                </li>
+                <li class="pc-item">
+                    <a href="tbl_bootstrap.html" class="pc-link "><span class="pc-micon"><i class="material-icons-two-tone">table_rows</i></span><span class="pc-mtext">Bootstrap table</span></a>
+                </li>
+                <li class="pc-item pc-caption">
+                    <label>Chart &amp; Maps</label>
+                    <span>Tones of readymade charts</span>
+                </li>
+                <li class="pc-item">
+                    <a href="chart-apex.html" class="pc-link "><span class="pc-micon"><i class="material-icons-two-tone">bubble_chart</i></span><span class="pc-mtext">Chart</span></a>
+                </li>
+                <li class="pc-item">
+                    <a href="map-google.html" class="pc-link "><span class="pc-micon"><i class="material-icons-two-tone">my_location</i></span><span class="pc-mtext">Maps</span></a>
+                </li>
+                <li class="pc-item pc-caption">
+                    <label>Pages</label>
+                    <span>Redymade Pages</span>
+                </li>
+                <li class="pc-item pc-hasmenu">
+                    <a href="#!" class="pc-link"><span class="pc-micon"><i class="material-icons-two-tone">https</i></span><span class="pc-mtext">Authentication</span><span class="pc-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></span></a>
+                    <ul class="pc-submenu" style="display: none;">
+                        <li class="pc-item"><a class="pc-link" href="auth-signup.html" target="_blank">Sign up</a></li>
+                        <li class="pc-item"><a class="pc-link" href="auth-signin.html" target="_blank">Sign in</a></li>
+                    </ul>
+                </li>
+                <li class="pc-item pc-caption">
+                    <label>Other</label>
+                    <span>Extra more things</span>
+                </li>
+                <li class="pc-item pc-hasmenu">
+                    <a href="#!" class="pc-link"><span class="pc-micon"><i class="material-icons-two-tone">list_alt</i></span><span class="pc-mtext">Menu levels</span><span class="pc-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></span></a>
+                    <ul class="pc-submenu" style="display: none;">
+                        <li class="pc-item"><a class="pc-link" href="#!">Menu Level 2.1</a></li>
+                        <li class="pc-item pc-hasmenu">
+                            <a href="#!" class="pc-link">Menu level 2.2<span class="pc-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></span></a>
+                            <ul class="pc-submenu" style="display: none;">
+                                <li class="pc-item"><a class="pc-link" href="#!">Menu level 3.1</a></li>
+                                <li class="pc-item"><a class="pc-link" href="#!">Menu level 3.2</a></li>
+                                <li class="pc-item pc-hasmenu">
+                                    <a href="#!" class="pc-link">Menu level 3.3<span class="pc-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></span></a>
+                                    <ul class="pc-submenu" style="display: none;">
+                                        <li class="pc-item"><a class="pc-link" href="#!">Menu level 4.1</a></li>
+                                        <li class="pc-item"><a class="pc-link" href="#!">Menu level 4.2</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="pc-item pc-hasmenu">
+                            <a href="#!" class="pc-link">Menu level 2.3<span class="pc-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></span></a>
+                            <ul class="pc-submenu" style="display: none;">
+                                <li class="pc-item"><a class="pc-link" href="#!">Menu level 3.1</a></li>
+                                <li class="pc-item"><a class="pc-link" href="#!">Menu level 3.2</a></li>
+                                <li class="pc-item pc-hasmenu">
+                                    <a href="#!" class="pc-link">Menu level 3.3<span class="pc-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></span></a>
+                                    <ul class="pc-submenu" style="display: none;">
+                                        <li class="pc-item"><a class="pc-link" href="#!">Menu level 4.1</a></li>
+                                        <li class="pc-item"><a class="pc-link" href="#!">Menu level 4.2</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="pc-item"><a href="sample-page.html" class="pc-link "><span class="pc-micon"><i class="material-icons-two-tone">storefront</i></span><span class="pc-mtext">Sample page</span></a></li>
+
             </ul>
-        </div>
-    </header>
+            <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; height: 1200px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 676px;"></div></div></div>
+    </div>
+
 </body>
 </html>

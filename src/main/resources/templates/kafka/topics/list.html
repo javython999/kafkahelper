@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/default}">
+<head>
+    <title>sparta</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-12">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10">Kafka Topics</h5>
+                    </div>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/kafka/topics">Kafka Topics</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Kafka Topic</h5>
+                </div>
+
+                <div class="card-header">
+                    <div class="row">
+                        <div class="input-group">
+                            <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+                                <option selected="">select broker...</option>
+                                <option th:each="kafkaBroker : ${kafkaBrokers}"
+                                        th:value="${kafkaBroker.id}"
+                                        th:text="${kafkaBroker.alias + '( ' + kafkaBroker.host + ' : ' + kafkaBroker.port + ' )'}">
+                                </option>
+                            </select>
+                            <button class="btn btn-outline-primary" type="button">search</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body table-border-style">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Alias</th>
+                                <th>Host</th>
+                                <th>Port</th>
+                                <th>Detail</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="kafkaBroker, stat : ${kafkaBrokers}">
+                                <td th:text="${stat.count}"></td>
+                                <td th:text="${kafkaBroker.alias}">localhost</td>
+                                <td th:text="${kafkaBroker.host}">127.0.0.1</td>
+                                <td th:text="${kafkaBroker.port}">9092</td>
+                                <td>
+                                    <button type="button" class="btn  btn-outline-secondary">Secondary</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>
