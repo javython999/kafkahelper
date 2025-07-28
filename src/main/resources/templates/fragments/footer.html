@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <!-- Footer -->
+    <footer th:fragment="footer" class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-0">© 2025 <a href="https://github.com/errday" target="_blank">errday</a> - Kafka Helper</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <p class="mb-0">Version 1.0.0</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- JavaScript Section -->
+    <div th:fragment="scripts">
+        <!-- Core JS -->
+        <script th:src="@{/js/main.js}"></script>
+        
+        <!-- Page specific scripts can be included using Thymeleaf -->
+        <th:block th:if="${pageScripts != null}">
+            <script th:each="script : ${pageScripts}" th:src="${script}"></script>
+        </th:block>
+        
+        <!-- Toggle Full Screen Function -->
+        <script>
+            function toggleFullScreen() {
+                if (!document.fullscreenElement &&
+                    !document.mozFullScreenElement && 
+                    !document.webkitFullscreenElement && 
+                    !document.msFullscreenElement) {
+                    if (document.documentElement.requestFullscreen) {
+                        document.documentElement.requestFullscreen();
+                    } else if (document.documentElement.msRequestFullscreen) {
+                        document.documentElement.msRequestFullscreen();
+                    } else if (document.documentElement.mozRequestFullScreen) {
+                        document.documentElement.mozRequestFullScreen();
+                    } else if (document.documentElement.webkitRequestFullscreen) {
+                        document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+                    }
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if (document.msExitFullscreen) {
+                        document.msExitFullscreen();
+                    } else if (document.mozCancelFullScreen) {
+                        document.mozCancelFullScreen();
+                    } else if (document.webkitExitFullscreen) {
+                        document.webkitExitFullscreen();
+                    }
+                }
+            }
+        </script>
+    </div>
+</body>
+</html>

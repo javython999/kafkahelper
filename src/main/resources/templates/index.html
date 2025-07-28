@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="row">
+            <!-- Kafka Brokers Card -->
+            <div class="col-md-6 col-xl-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-4">
+                                <i class="fas fa-server f-36 text-primary"></i>
+                            </div>
+                            <div class="col-8 text-end">
+                                <h3 class="fw-bold" th:text="${brokerCount ?: 0}">0</h3>
+                                <h6 class="text-muted m-b-0">Kafka Brokers</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-primary">
+                        <div class="row align-items-center">
+                            <div class="col-9">
+                                <p class="text-white m-b-0">Manage Brokers</p>
+                            </div>
+                            <div class="col-3 text-end">
+                                <a href="/kafka/brokers" class="text-white"><i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Kafka Topics Card -->
+            <div class="col-md-6 col-xl-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-4">
+                                <i class="fas fa-list f-36 text-success"></i>
+                            </div>
+                            <div class="col-8 text-end">
+                                <h3 class="fw-bold" th:text="${topicCount ?: 0}">0</h3>
+                                <h6 class="text-muted m-b-0">Kafka Topics</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-success">
+                        <div class="row align-items-center">
+                            <div class="col-9">
+                                <p class="text-white m-b-0">Manage Topics</p>
+                            </div>
+                            <div class="col-3 text-end">
+                                <a href="/kafka/topics" class="text-white"><i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Producer Card -->
+            <div class="col-md-6 col-xl-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-4">
+                                <i class="fas fa-upload f-36 text-warning"></i>
+                            </div>
+                            <div class="col-8 text-end">
+                                <h3 class="fw-bold" th:text="${producedMessages ?: 0}">0</h3>
+                                <h6 class="text-muted m-b-0">Produced Messages</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-warning">
+                        <div class="row align-items-center">
+                            <div class="col-9">
+                                <p class="text-white m-b-0">Produce Messages</p>
+                            </div>
+                            <div class="col-3 text-end">
+                                <a href="/kafka/producer" class="text-white"><i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Consumer Card -->
+            <div class="col-md-6 col-xl-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-4">
+                                <i class="fas fa-download f-36 text-info"></i>
+                            </div>
+                            <div class="col-8 text-end">
+                                <h3 class="fw-bold" th:text="${consumedMessages ?: 0}">0</h3>
+                                <h6 class="text-muted m-b-0">Consumed Messages</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-info">
+                        <div class="row align-items-center">
+                            <div class="col-9">
+                                <p class="text-white m-b-0">Consume Messages</p>
+                            </div>
+                            <div class="col-3 text-end">
+                                <a href="/kafka/consumer" class="text-white"><i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recent Activity -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Recent Activity</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Time</th>
+                                        <th>Action</th>
+                                        <th>Details</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:if="${activities != null and not #lists.isEmpty(activities)}" th:each="activity : ${activities}">
+                                        <td th:text="${activity.time}">2025-07-25 13:45</td>
+                                        <td th:text="${activity.action}">Produce Message</td>
+                                        <td th:text="${activity.details}">Topic: test-topic</td>
+                                        <td>
+                                            <span th:class="'badge ' + ${activity.status == 'SUCCESS' ? 'badge-success' : 'badge-danger'}" 
+                                                  th:text="${activity.status}">SUCCESS</span>
+                                        </td>
+                                    </tr>
+                                    <tr th:if="${activities == null or #lists.isEmpty(activities)}">
+                                        <td colspan="4" class="text-center">No recent activity</td>
+                                    </tr>
+                                    <!-- Sample data for display purposes -->
+                                    <tr th:if="${activities == null}">
+                                        <td>2025-07-25 13:45</td>
+                                        <td>Produce Message</td>
+                                        <td>Topic: test-topic</td>
+                                        <td><span class="badge badge-success">SUCCESS</span></td>
+                                    </tr>
+                                    <tr th:if="${activities == null}">
+                                        <td>2025-07-25 13:40</td>
+                                        <td>Create Topic</td>
+                                        <td>Topic: new-topic, Partitions: 3</td>
+                                        <td><span class="badge badge-success">SUCCESS</span></td>
+                                    </tr>
+                                    <tr th:if="${activities == null}">
+                                        <td>2025-07-25 13:35</td>
+                                        <td>Register Broker</td>
+                                        <td>Broker: localhost:9092</td>
+                                        <td><span class="badge badge-success">SUCCESS</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Quick Actions</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <a href="/kafka/brokers/register" class="btn btn-primary btn-block w-100">
+                                    <i class="fas fa-plus me-2"></i> Register Broker
+                                </a>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <a href="/kafka/topics/create" class="btn btn-success btn-block w-100">
+                                    <i class="fas fa-plus me-2"></i> Create Topic
+                                </a>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <a href="/kafka/producer" class="btn btn-warning btn-block w-100">
+                                    <i class="fas fa-upload me-2"></i> Produce Message
+                                </a>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <a href="/kafka/consumer" class="btn btn-info btn-block w-100">
+                                    <i class="fas fa-download me-2"></i> Consume Messages
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
