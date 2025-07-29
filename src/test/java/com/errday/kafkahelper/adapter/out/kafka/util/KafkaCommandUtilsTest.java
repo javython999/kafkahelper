@@ -1,6 +1,5 @@
-package com.errday.kafkahelper.infrastructure.kafka.util;
+package com.errday.kafkahelper.adapter.out.kafka.util;
 
-import com.errday.kafkahelper.adapter.out.kafka.util.KafkaCommandUtils;
 import com.errday.kafkahelper.domain.model.TopicAlterRequest;
 import org.junit.jupiter.api.Test;
 
@@ -8,7 +7,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class KafkaCommandUtilsTemp {
+class KafkaCommandUtilsTest {
 
     @Test
     void getNonNullFields() {
@@ -46,5 +45,4 @@ class KafkaCommandUtilsTemp {
                 .doesNotContainKey("segment.bytes")
                 .doesNotContainKey("delete.retention.ms");
     }
-
 }

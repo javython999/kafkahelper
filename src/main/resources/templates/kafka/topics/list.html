@@ -30,15 +30,26 @@
 
                 <div class="card-header">
                     <div class="row">
-                        <div class="input-group">
-                            <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
-                                <option selected="">select broker...</option>
-                                <option th:each="kafkaBroker : ${kafkaBrokers}"
-                                        th:value="${kafkaBroker.id}"
-                                        th:text="${kafkaBroker.alias + '( ' + kafkaBroker.host + ' : ' + kafkaBroker.port + ' )'}">
-                                </option>
-                            </select>
-                            <button class="btn btn-outline-primary" type="button">search</button>
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <select id="brokerSelect"
+                                        class="form-select"
+                                        onchange="initBroker();"
+                                        aria-label="broker selection">
+                                    <option th:each="kafkaBroker : ${kafkaBrokers}"
+                                            th:value="${kafkaBroker.id}"
+                                            th:data-host="${kafkaBroker.host}"
+                                            th:data-port="${kafkaBroker.port}"
+                                            th:text="${kafkaBroker.alias + '( ' + kafkaBroker.host + ' : ' + kafkaBroker.port + ' )'}"
+                                            th:selected="${kafkaBroker.host == bootstrapServer.host} and ${kafkaBroker.port == bootstrapServer.port}">
+                                    </option>
+                                </select>
+                                <button type="button" class="btn btn-outline-primary" onclick="loadTopics();">search</button>
+                                <button type="button"
+                                        onclick="moveToRegisterTopic();"
+                                        class="btn btn-outline-primary">
+                                    Register topic</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -48,23 +59,13 @@
                         <table class="table table-hover">
                             <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Alias</th>
-                                <th>Host</th>
-                                <th>Port</th>
-                                <th>Detail</th>
+                                <th style="width: 10%;">#</th>
+                                <th>topic</th>
+                                <th style="width: 10%;">Detail</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr th:each="kafkaBroker, stat : ${kafkaBrokers}">
-                                <td th:text="${stat.count}"></td>
-                                <td th:text="${kafkaBroker.alias}">localhost</td>
-                                <td th:text="${kafkaBroker.host}">127.0.0.1</td>
-                                <td th:text="${kafkaBroker.port}">9092</td>
-                                <td>
-                                    <button type="button" class="btn  btn-outline-secondary">Secondary</button>
-                                </td>
-                            </tr>
+                            <tbody id="topicTable">
+
                             </tbody>
                         </table>
                     </div>
@@ -72,6 +73,55 @@
             </div>
         </div>
 
+        <div id="registerTopicModal" class="modal fade" tabindex="-1" aria-labelledby="registerTopicModalTitle" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="registerTopicModalTitle">Register Topic</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="form-label" for="registerBrokerAlias">Topic Name</label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="registerBrokerAlias"
+                                   maxlength="50"
+                                   aria-describedby="registerAliasHelp"
+                                   placeholder="Enter alias">
+                            <small id="registerAliasHelp" class="form-text text-muted">카프카 브로커의 별칭을 입력해주세요.</small>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="registerBrokerHost">Host</label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="registerBrokerHost"
+                                   maxlength="80"
+                                   aria-describedby="registerHostHelp"
+                                   placeholder="Enter host">
+                            <small id="registerHostHelp" class="form-text text-muted">카프카 브로커의 호스트를 입력해주세요.</small>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="registerBrokerPort">Host</label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="registerBrokerPort"
+                                   maxlength="5"
+                                   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                   aria-describedby="registerPortHelp"
+                                   placeholder="Enter host">
+                            <small id="registerPortHelp" class="form-text text-muted">카프카 브로커의 포트를 입력해주세요.</small>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal" onclick="clearModalInputs();">Close</button>
+                        <button type="button" class="btn  btn-primary" onclick="saveTopic();">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="/js/topic.js"></script>
     </div>
 
 </div>

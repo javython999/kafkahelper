@@ -2,6 +2,8 @@ package com.errday.kafkahelper.domain.model;
 
 public record KafkaBrokerRegisterRequest(
         String alias,
-        String  host,
-        Integer port) {
+        BootstrapServer bootstrapServer) {
+
+    public String host() { return bootstrapServer.host(); }
+    public int port() { return bootstrapServer.port(); }
 }

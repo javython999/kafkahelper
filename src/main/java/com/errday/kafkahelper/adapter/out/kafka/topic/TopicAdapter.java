@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.*;
 import org.apache.kafka.common.config.ConfigResource;
+import org.apache.kafka.shaded.com.google.protobuf.Api;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -22,10 +23,10 @@ public class TopicAdapter implements TopicClientPort {
     private String BOOTSTRAP_SERVER;
 
     @Override
-    public String createTopic(TopicCreateRequest request) {
+    public ApiResponse<String> createTopic(TopicCreateRequest request) {
 
         Properties config = new Properties();
-        config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVER);
+        config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, request.bootStrapServerAddress());
 
         try (AdminClient admin = AdminClient.create(config)) {
 
@@ -33,16 +34,16 @@ public class TopicAdapter implements TopicClientPort {
                     .configs(KafkaCommandUtils.getNonNullFields(request.config()));
             admin.createTopics(List.of(topic)).all().get();
 
-            return "create topic = " + request.topicName() + " success";
-        } catch (ExecutionException e) {
+            return ApiResponse.success(
+                    String.format("Successfully created topic: %s",
+                    request.topicName()), request.topicName()
+            );
+        } catch (ExecutionException | InterruptedException e) {
 
-            return "topic '" + request.topicName() + "' already exists";
-
-        } catch (InterruptedException e) {
-
-            log.error("create topic = {} fail",request.topicName(), e);
-
-            return "create topic = " + request.topicName() + " fail";
+            return ApiResponse.error(
+                    String.format("An error occurred while creating the topic: %s", e.getCause()),
+                    request.topicName()
+            );
         }
     }
 
@@ -80,10 +81,10 @@ public class TopicAdapter implements TopicClientPort {
     }
 
     @Override
-    public Set<String> topicList() {
+    public Set<String> topicList(BootstrapServer bootstrapServer) {
 
         Properties config = new Properties();
-        config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVER);
+        config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer.address());
 
         try (AdminClient admin = AdminClient.create(config)) {
 

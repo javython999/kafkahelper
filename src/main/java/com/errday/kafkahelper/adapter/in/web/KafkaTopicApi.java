@@ -1,12 +1,10 @@
 package com.errday.kafkahelper.adapter.in.web;
 
 import com.errday.kafkahelper.application.port.in.KafkaTopicPort;
-import com.errday.kafkahelper.domain.model.TopicAlterRequest;
-import com.errday.kafkahelper.domain.model.TopicConfigDescribe;
-import com.errday.kafkahelper.domain.model.TopicCreateRequest;
-import com.errday.kafkahelper.domain.model.TopicDescribe;
+import com.errday.kafkahelper.domain.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,8 +19,8 @@ public class KafkaTopicApi {
     private final KafkaTopicPort kafkaTopicService;
 
     @PostMapping("/topics")
-    public String createTopic(@RequestBody TopicCreateRequest request) {
-        return kafkaTopicService.createTopic(request);
+    public ResponseEntity<ApiResponse<String>> createTopic(@RequestBody TopicCreateRequest request) {
+        return ResponseEntity.ok(kafkaTopicService.createTopic(request));
     }
 
     @GetMapping("/topics/{topicName}")
@@ -31,8 +29,8 @@ public class KafkaTopicApi {
     }
 
     @GetMapping("/topics")
-    public Set<String> topicList() {
-        return kafkaTopicService.topicList();
+    public Set<String> topicList(BootstrapServer bootstrapServer) {
+        return kafkaTopicService.topicList(bootstrapServer);
     }
 
     @GetMapping("/topics/{topicName}/configs")

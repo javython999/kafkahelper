@@ -1,16 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
+    initBrokerPage();
+});
+
+function initBrokerPage() {
+    initModalCloseAction();
     loadBrokers();
-});
-
-document.querySelectorAll('.modal').forEach(modal => {
-   modal.addEventListener('hidden.bs.modal', () => {
-        clearModalInputs(modal.getAttribute('id'));
-    });
-});
-
-document.getElementById('editBrokerModal').addEventListener('hidden.bs.modal', () => {
-    clearModalInputs('editBrokerModal');
-});
+}
 
 function loadBrokers() {
 
@@ -90,21 +85,6 @@ function loadBrokers() {
     fetchBrokers();
 }
 
-function openModal(modalId) {
-    const modal = new bootstrap.Modal(document.getElementById(modalId));
-    modal.show();
-}
-
-function closeModal() {
-    document.querySelectorAll('.btn-close')
-        .forEach((button) => button.click());
-}
-
-function clearModalInputs(modalId) {
-    const modal = document.getElementById(modalId);
-    modal.querySelectorAll('input').forEach(input => input.value = '');
-}
-
 function saveBroker() {
 
     const getUserInput = () => {
@@ -115,8 +95,10 @@ function saveBroker() {
 
         return {
             alias: alias,
-            host: host,
-            port: port,
+            bootstrapServer: {
+                host: host,
+                port: port,
+            },
         };
     }
 
