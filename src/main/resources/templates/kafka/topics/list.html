@@ -27,14 +27,12 @@
                 <div class="card-header">
                     <h5>Kafka Topic</h5>
                 </div>
-
                 <div class="card-header">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="input-group">
                                 <select id="brokerSelect"
                                         class="form-select"
-                                        onchange="initBroker();"
                                         aria-label="broker selection">
                                     <option th:each="kafkaBroker : ${kafkaBrokers}"
                                             th:value="${kafkaBroker.id}"
@@ -53,6 +51,12 @@
                         </div>
                     </div>
                 </div>
+                <div class="card-header">
+                    <div class="input-group">
+                        <span class="input-group-text">Filter</span>
+                        <input type="text" class="form-control" onkeyup="filterTopics(this);" placeholder="topic name">
+                    </div>
+                </div>
 
                 <div class="card-body table-border-style">
                     <div class="table-responsive">
@@ -60,8 +64,10 @@
                             <thead>
                             <tr>
                                 <th style="width: 10%;">#</th>
-                                <th>topic</th>
-                                <th style="width: 10%;">Detail</th>
+                                <th>Topic</th>
+                                <th style="width: 10%;">Describe</th>
+                                <th style="width: 10%;">Record</th>
+                                <th style="width: 10%;">Management</th>
                             </tr>
                             </thead>
                             <tbody id="topicTable">
@@ -73,49 +79,33 @@
             </div>
         </div>
 
-        <div id="registerTopicModal" class="modal fade" tabindex="-1" aria-labelledby="registerTopicModalTitle" style="display: none;" aria-hidden="true">
+        <div id="describeTopicModal" class="modal fade" tabindex="-1" aria-labelledby="describeModalTitle" style="display: none;" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="registerTopicModalTitle">Register Topic</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h5 class="modal-title" id="describeModalTitle">Describe topic</h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label class="form-label" for="registerBrokerAlias">Topic Name</label>
+                            <label class="form-label" for="describeTopicName">Topic Name</label>
                             <input type="text"
                                    class="form-control"
-                                   id="registerBrokerAlias"
-                                   maxlength="50"
-                                   aria-describedby="registerAliasHelp"
-                                   placeholder="Enter alias">
-                            <small id="registerAliasHelp" class="form-text text-muted">카프카 브로커의 별칭을 입력해주세요.</small>
+                                   id="describeTopicName"
+                                   readonly>
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="registerBrokerHost">Host</label>
+                            <label class="form-label" for="describeTopicInternal">internal</label>
                             <input type="text"
                                    class="form-control"
-                                   id="registerBrokerHost"
-                                   maxlength="80"
-                                   aria-describedby="registerHostHelp"
-                                   placeholder="Enter host">
-                            <small id="registerHostHelp" class="form-text text-muted">카프카 브로커의 호스트를 입력해주세요.</small>
+                                   id="describeTopicInternal"
+                                   readonly>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label" for="registerBrokerPort">Host</label>
-                            <input type="text"
-                                   class="form-control"
-                                   id="registerBrokerPort"
-                                   maxlength="5"
-                                   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
-                                   aria-describedby="registerPortHelp"
-                                   placeholder="Enter host">
-                            <small id="registerPortHelp" class="form-text text-muted">카프카 브로커의 포트를 입력해주세요.</small>
+                        <div class="form-group describeTopicPartitionsDiv">
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal" onclick="clearModalInputs();">Close</button>
-                        <button type="button" class="btn  btn-primary" onclick="saveTopic();">Save</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearModalInputs();">Close</button>
                     </div>
                 </div>
             </div>

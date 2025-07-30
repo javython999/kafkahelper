@@ -6,9 +6,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class KafkaCommandUtils {
+public class KafkaUtils {
 
-    private KafkaCommandUtils() {
+    private KafkaUtils() {
     }
 
     public static Map<String, String> getNonNullFields(Object obj) {
@@ -32,6 +32,21 @@ public class KafkaCommandUtils {
         return result;
     }
 
+    public static String dotCaseToCamelCase(String dotCase) {
+        String[] parts = dotCase.split("\\.");
+        StringBuilder camelCaseString = new StringBuilder(parts[0]);
+
+        for (int i = 1; i < parts.length; i++) {
+            if (!parts[i].isEmpty()) {
+                camelCaseString.append(Character.toUpperCase(parts[i].charAt(0)));
+                if (parts[i].length() > 1) {
+                    camelCaseString.append(parts[i].substring(1));
+                }
+            }
+        }
+        return camelCaseString.toString();
+    }
+
     private static String dotCase(String camelCase) {
         Pattern pattern = Pattern.compile("([a-z])([A-Z]+)");
         Matcher matcher = pattern.matcher(camelCase);
@@ -45,4 +60,5 @@ public class KafkaCommandUtils {
 
         return result.toString();
     }
+
 }

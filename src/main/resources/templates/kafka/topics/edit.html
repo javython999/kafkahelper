@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/default}">
+<head>
+    <title>sparta</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Kafka Topics</h5>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item"><a href="/kafka/topics">Kafka Topics</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Kafka Topic Edit</h5>
+                    </div>
+                        <form id="editTopicForm">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="input-group">
+                                    <span class="input-group-text">Broker</span>
+                                    <input class="form-control"
+                                           id="host"
+                                           name="host"
+                                           aria-describedby="brokerHostHelp"
+                                           type="text"
+                                           required
+                                           th:value="${bootstrapServer.host()}" readonly>
+                                    <span class="input-group-text">:</span>
+                                    <input class="form-control"
+                                           id="port"
+                                           name="port"
+                                           aria-describedby="brokerPortHelp"
+                                           type="text"
+                                           required
+                                           th:value="${bootstrapServer.port()}" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body table-border-style">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="topicName">Topic name</label>
+                                        <input type="text"
+                                               id="topicName"
+                                               name="topicName"
+                                               class="form-control"
+                                               th:value="${topicName}"
+                                               readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-12" th:each="config : ${topicConfig}">
+                                    <div class="form-group" th:if="${#lists.contains(configOptions, config.name)}">
+                                        <label class="form-label" th:for="${config.dotCaseName()}" th:text="${config.name}">TopicConfig</label>
+                                        <input type="text"
+                                               class="form-control"
+                                               th:id="${config.dotCaseName()}"
+                                               th:name="${config.dotCaseName()}"
+                                               th:value="${config.value}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn-toolbar justify-content-end">
+                                <div class="input-group">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="moveToTopicList();">cancel</button>
+                                    <button type="button" class="btn btn-primary" onclick="editTopic();">Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <script src="/js/topicEdit.js"></script>
+        </div>
+    </div>
+</body>
+</html>

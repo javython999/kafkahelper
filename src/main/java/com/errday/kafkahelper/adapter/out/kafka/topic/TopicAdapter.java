@@ -1,13 +1,12 @@
 package com.errday.kafkahelper.adapter.out.kafka.topic;
 
-import com.errday.kafkahelper.adapter.out.kafka.util.KafkaCommandUtils;
+import com.errday.kafkahelper.adapter.out.kafka.util.KafkaUtils;
 import com.errday.kafkahelper.application.port.out.TopicClientPort;
 import com.errday.kafkahelper.domain.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.*;
 import org.apache.kafka.common.config.ConfigResource;
-import org.apache.kafka.shaded.com.google.protobuf.Api;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -31,7 +30,7 @@ public class TopicAdapter implements TopicClientPort {
         try (AdminClient admin = AdminClient.create(config)) {
 
             NewTopic topic = new NewTopic(request.topicName(), request.partitions(), request.replicationFactor())
-                    .configs(KafkaCommandUtils.getNonNullFields(request.config()));
+                    .configs(KafkaUtils.getNonNullFields(request.config()));
             admin.createTopics(List.of(topic)).all().get();
 
             return ApiResponse.success(
@@ -48,17 +47,17 @@ public class TopicAdapter implements TopicClientPort {
     }
 
     @Override
-    public TopicDescribe describeTopic(String topicName) {
+    public ApiResponse<TopicDescribe> describeTopic(TopicDescribeRequest request) {
 
         Properties config = new Properties();
-        config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVER);
+        config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, request.bootStrapServerAddress());
 
         try (AdminClient admin = AdminClient.create(config)) {
 
-            DescribeTopicsResult result = admin.describeTopics(List.of(topicName));
+            DescribeTopicsResult result = admin.describeTopics(List.of(request.topicName()));
 
             TopicDescription description = result.topicNameValues()
-                    .get(topicName)
+                    .get(request.topicName())
                     .get();
 
             List<TopicPartitionDescribe> partitions = description.partitions()
@@ -70,18 +69,18 @@ public class TopicAdapter implements TopicClientPort {
                             partition.replicas().toString()))
                     .toList();
 
-            return new TopicDescribe(topicName, description.isInternal(), partitions);
+            return ApiResponse.success("success", new TopicDescribe(request.topicName(), description.isInternal(), partitions));
         } catch (ExecutionException | InterruptedException e) {
 
-            log.error("describe topic = {} fail",topicName, e);
+            log.error("describe topic = {} fail", request.topicName(), e);
 
-            return null;
+            return ApiResponse.error("error", null);
         }
 
     }
 
     @Override
-    public Set<String> topicList(BootstrapServer bootstrapServer) {
+    public ApiResponse<List<String>> topicList(BootstrapServer bootstrapServer) {
 
         Properties config = new Properties();
         config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer.address());
@@ -93,13 +92,17 @@ public class TopicAdapter implements TopicClientPort {
 
             ListTopicsResult topics = admin.listTopics(options);
 
-            return topics.names().get();
+            List<String> sorted = topics.names().get().stream()
+                    .sorted()
+                    .toList();
+
+            return ApiResponse.success("success", sorted);
 
         } catch (ExecutionException | InterruptedException e) {
 
             log.error("topic list fail", e);
 
-            return Collections.emptySet();
+            return ApiResponse.error("error", Collections.emptyList());
         }
     }
 
@@ -121,6 +124,7 @@ public class TopicAdapter implements TopicClientPort {
                     .stream()
                     .map(configEntry -> new TopicConfigDescribe(
                             configEntry.name(),
+                            KafkaUtils.dotCaseToCamelCase(configEntry.name()),
                             configEntry.value(),
                             configEntry.isDefault(),
                             configEntry.isReadOnly(),
@@ -137,16 +141,15 @@ public class TopicAdapter implements TopicClientPort {
     }
 
     @Override
-    public String updateTopicConfig(String topicName, TopicAlterRequest request) {
+    public ApiResponse<String> updateTopicConfig(String topicName, TopicEditRequest request) {
 
         Properties config = new Properties();
-        config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVER);
+        config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, request.bootStrapServerAddress());
 
         try (AdminClient admin = AdminClient.create(config)) {
             ConfigResource resource = new ConfigResource(ConfigResource.Type.TOPIC, topicName);
 
-            // 변경할 설정 정의
-            List<AlterConfigOp> configs = KafkaCommandUtils.getNonNullFields(request)
+            List<AlterConfigOp> configs = KafkaUtils.getNonNullFields(request.config())
                     .entrySet()
                     .stream()
                     .map(entry -> new AlterConfigOp(
@@ -161,12 +164,12 @@ public class TopicAdapter implements TopicClientPort {
                     .all()
                     .get();
 
-            return "update topic config = " + topicName + " success";
+            return ApiResponse.success("edit topic success", "success");
         } catch (ExecutionException | InterruptedException e) {
 
             log.error("create topic = {} fail",topicName, e);
 
-            return "update topic config = " + topicName + " fail";
+            return ApiResponse.success("An error occurred while edit", "success");
         }
 
     }

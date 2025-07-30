@@ -1,6 +1,6 @@
 package com.errday.kafkahelper.domain.model;
 
-public record TopicAlterRequest(
+public record TopicEditConfig(
         Long retentionMs,
         Long retentionBytes,
         String cleanupPolicy,
@@ -9,8 +9,9 @@ public record TopicAlterRequest(
         Long segmentMs,
         Float minCleanableDirtyRatio,
         Long deleteRetentionMs,
-        Integer flushMessages,
-        Integer flushMs,
+        Long flushMessages,
+        Long flushMs,
         String messageTimestampType,
-        String compressionType) {
+        String compressionType
+) {
 }

@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function initBrokerPage() {
-    initModalCloseAction();
     loadBrokers();
 }
 
@@ -38,43 +37,19 @@ function loadBrokers() {
             <tr>
                 <td>${index}</td>
                 <td>${broker.alias}</td>
-                <td>${broker.host}</td>
-                <td>${broker.port}</td>
+                <td>${broker.bootstrapServer.host}</td>
+                <td>${broker.bootstrapServer.port}</td>
                 <td>
                     <button type="button" 
                             onclick="editBroker(${broker.id})"
-                            class="btn btn-icon btn-outline-primary btn-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" 
-                             width="24" 
-                             height="24" 
-                             fill="none"
-                             viewBox="0 0 24 24" 
-                             stroke="currentColor" 
-                             stroke-width="2" 
-                             stroke-linecap="round" 
-                             stroke-linejoin="round" 
-                             class="feather feather-edit">
-                             <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                             <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                        </svg>
+                            class="btn btn-icon btn-outline-secondary btn-sm">
+                        <i class="fa-regular fa-pen-to-square"></i>
                         <span>edit</span>
                     </button>
                     <button type="button" 
                             onclick="deleteBroker(${broker.id})"
-                            class="btn  btn-outline-danger btn-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" 
-                             width="24" 
-                             height="24" 
-                             viewBox="0 0 24 24" 
-                             fill="none" 
-                             stroke="currentColor" 
-                             stroke-width="2" 
-                             stroke-linecap="round" 
-                             stroke-linejoin="round" 
-                             class="feather feather-trash">
-                             <polyline points="3 6 5 6 21 6"></polyline>
-                             <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                         </svg>
+                            class="btn  btn-outline-secondary btn-sm">
+                        <i class="fa-solid fa-delete-left"></i>
                         <span>delete</span>
                     </button>
                 </td>
@@ -169,10 +144,10 @@ function editBroker(brokerId) {
         modal.querySelector('#editBrokerId').value = brokerInfo.id;
         modal.querySelector('#editBrokerAlias').value = brokerInfo.alias;
         modal.querySelector('#oldAlias').value = brokerInfo.alias;
-        modal.querySelector('#editBrokerHost').value = brokerInfo.host;
-        modal.querySelector('#oldHost').value = brokerInfo.host;
-        modal.querySelector('#editBrokerPort').value = brokerInfo.port;
-        modal.querySelector('#oldPort').value = brokerInfo.port;
+        modal.querySelector('#editBrokerHost').value = brokerInfo.bootstrapServer.host;
+        modal.querySelector('#oldHost').value = brokerInfo.bootstrapServer.host;
+        modal.querySelector('#editBrokerPort').value = brokerInfo.bootstrapServer.port;
+        modal.querySelector('#oldPort').value = brokerInfo.bootstrapServer.port;
     }
 
     fetchBrokerInfo(brokerId);

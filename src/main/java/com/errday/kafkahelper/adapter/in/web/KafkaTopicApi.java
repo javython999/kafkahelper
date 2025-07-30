@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @Slf4j
 @RestController
@@ -23,14 +22,14 @@ public class KafkaTopicApi {
         return ResponseEntity.ok(kafkaTopicService.createTopic(request));
     }
 
-    @GetMapping("/topics/{topicName}")
-    public TopicDescribe describeTopic(@PathVariable String topicName) {
-        return kafkaTopicService.describeTopic(topicName);
+    @PostMapping("/topics/{topicName}")
+    public ApiResponse<TopicDescribe> describeTopic(@PathVariable String topicName, @RequestBody TopicDescribeRequest request) {
+        return kafkaTopicService.describeTopic(request);
     }
 
     @GetMapping("/topics")
-    public Set<String> topicList(BootstrapServer bootstrapServer) {
-        return kafkaTopicService.topicList(bootstrapServer);
+    public ResponseEntity<ApiResponse<List<String>>> topicList(BootstrapServer bootstrapServer) {
+        return ResponseEntity.ok(kafkaTopicService.topicList(bootstrapServer));
     }
 
     @GetMapping("/topics/{topicName}/configs")
@@ -39,8 +38,8 @@ public class KafkaTopicApi {
     }
 
     @PatchMapping("/topics/{topicName}")
-    public String updateTopic(@PathVariable String topicName, @RequestBody TopicAlterRequest config) {
-        return kafkaTopicService.updateTopicConfig(topicName, config);
+    public ResponseEntity<ApiResponse<String>> updateTopic(@PathVariable String topicName, @RequestBody TopicEditRequest config) {
+        return ResponseEntity.ok(kafkaTopicService.updateTopicConfig(topicName, config));
     }
 
     @DeleteMapping("/topics/{topicName}")

@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -19,11 +18,11 @@ public class KafkaTopicService implements KafkaTopicPort {
         return topicClientPort.createTopic(request);
     }
 
-    public TopicDescribe describeTopic(String topicName) {
-        return topicClientPort.describeTopic(topicName);
+    public ApiResponse<TopicDescribe> describeTopic(TopicDescribeRequest request) {
+        return topicClientPort.describeTopic(request);
     }
 
-    public Set<String> topicList(BootstrapServer bootstrapServer) {
+    public ApiResponse<List<String>> topicList(BootstrapServer bootstrapServer) {
         return topicClientPort.topicList(bootstrapServer);
     }
 
@@ -31,7 +30,7 @@ public class KafkaTopicService implements KafkaTopicPort {
         return topicClientPort.describeTopicConfig(topicName);
     }
 
-    public String updateTopicConfig(String topicName, TopicAlterRequest request) {
+    public ApiResponse<String> updateTopicConfig(String topicName, TopicEditRequest request) {
         return topicClientPort.updateTopicConfig(topicName, request);
     }
 

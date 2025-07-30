@@ -1,3 +1,7 @@
+document.addEventListener("DOMContentLoaded", () => {
+    initModalCloseAction();
+});
+
 function initModalCloseAction() {
     document.querySelectorAll('.modal').forEach(modal => {
         modal.addEventListener('hidden.bs.modal', () => {

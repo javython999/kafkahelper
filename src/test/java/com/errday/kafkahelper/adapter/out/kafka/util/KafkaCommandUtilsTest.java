@@ -1,6 +1,8 @@
 package com.errday.kafkahelper.adapter.out.kafka.util;
 
-import com.errday.kafkahelper.domain.model.TopicAlterRequest;
+import com.errday.kafkahelper.domain.model.BootstrapServer;
+import com.errday.kafkahelper.domain.model.TopicEditConfig;
+import com.errday.kafkahelper.domain.model.TopicEditRequest;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -11,22 +13,23 @@ class KafkaCommandUtilsTest {
 
     @Test
     void getNonNullFields() {
-        TopicAlterRequest testCase = new TopicAlterRequest(
-                604800000L,
-                1073741824L,
-                null,
-                1073741824L,
-                null,
-                604800000L,
-                0.5F,
-                null,
-                10000,
-                1000,
-                "CreateTime",
-                "gzip"
+        TopicEditRequest testCase = new TopicEditRequest(
+                new BootstrapServer("localhost", 9092),
+                new TopicEditConfig(604800000L,
+                        1073741824L,
+                        null,
+                        1073741824L,
+                        null,
+                        604800000L,
+                        0.5F,
+                        null,
+                        10000L,
+                        1000L,
+                        "CreateTime",
+                        "gzip")
         );
 
-        Map<String, String> actual = KafkaCommandUtils.getNonNullFields(testCase);
+        Map<String, String> actual = KafkaUtils.getNonNullFields(testCase.config());
 
         assertThat(actual)
                 .containsEntry("retention.ms", "604800000")
