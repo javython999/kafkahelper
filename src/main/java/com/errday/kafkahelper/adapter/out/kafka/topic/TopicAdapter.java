@@ -107,20 +107,20 @@ public class TopicAdapter implements TopicClientPort {
     }
 
     @Override
-    public List<TopicConfigDescribe> describeTopicConfig(String topicName) {
+    public ApiResponse<List<TopicConfigDescribe>> describeTopicConfig(TopicConfigDescribeRequest request) {
 
         Properties config = new Properties();
-        config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVER);
+        config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, request.bootstrapServerAddress());
 
         try (AdminClient admin = AdminClient.create(config)) {
 
-            ConfigResource resource = new ConfigResource(ConfigResource.Type.TOPIC, topicName);
+            ConfigResource resource = new ConfigResource(ConfigResource.Type.TOPIC, request.topicName());
 
             DescribeConfigsResult result = admin.describeConfigs(Collections.singleton(resource));
 
             Config topicConfig = result.all().get().get(resource);
 
-            return topicConfig.entries()
+            List<TopicConfigDescribe> topicConfigDescribes = topicConfig.entries()
                     .stream()
                     .map(configEntry -> new TopicConfigDescribe(
                             configEntry.name(),
@@ -132,11 +132,13 @@ public class TopicAdapter implements TopicClientPort {
                     ))
                     .toList();
 
+            return ApiResponse.success("success", topicConfigDescribes);
+
         } catch (ExecutionException | InterruptedException e) {
 
-            log.error("describe topic config = {} fail",topicName, e);
+            log.error("describe topic config = {} fail", request.topicName(), e);
 
-            return Collections.emptyList();
+            return ApiResponse.error("fail", Collections.emptyList());
         }
     }
 
@@ -175,23 +177,23 @@ public class TopicAdapter implements TopicClientPort {
     }
 
     @Override
-    public String deleteTopic(String topicName) {
+    public ApiResponse<String> deleteTopic(TopicDeleteRequest request) {
 
         Properties config = new Properties();
-        config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVER);
+        config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, request.bootStrapServerAddress());
 
         try (AdminClient admin = AdminClient.create(config)) {
 
-            admin.deleteTopics(List.of(topicName))
+            admin.deleteTopics(List.of(request.topicName()))
                     .all()
                     .get();
 
-            return "delete topic = " + topicName + " success";
+            return ApiResponse.success("delete topic success", request.topicName());
         } catch (ExecutionException | InterruptedException e) {
 
-            log.error("delete topic = {} fail",topicName, e);
+            log.error("delete topic = {} fail", request.topicName(), e);
 
-            return "delete topic = " + topicName + " fail";
+            return ApiResponse.error("An error occurred while delete topic", request.topicName());
         }
 
     }

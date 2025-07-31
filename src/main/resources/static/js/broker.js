@@ -47,7 +47,7 @@ function loadBrokers() {
                         <span>edit</span>
                     </button>
                     <button type="button" 
-                            onclick="deleteBroker(${broker.id})"
+                            onclick="deleteBroker('${broker.alias}', ${broker.id})"
                             class="btn  btn-outline-secondary btn-sm">
                         <i class="fa-solid fa-delete-left"></i>
                         <span>delete</span>
@@ -239,7 +239,7 @@ function updateBroker() {
     }
 }
 
-function deleteBroker(brokerId) {
+function deleteBroker(brokerAlias, brokerId) {
 
     const fetchDeleteBroker = (brokerId) => {
         fetch(`/api/kafka/brokers/${brokerId}`, {
@@ -257,5 +257,5 @@ function deleteBroker(brokerId) {
 
     }
 
-    Confirm.confirmDangerWithCallback("삭제하시겠습니까?", () => fetchDeleteBroker(brokerId));
+    Confirm.confirmDangerWithCallback(`${brokerAlias} 삭제하시겠습니까?`, () => fetchDeleteBroker(brokerId));
 }

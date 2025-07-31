@@ -66,11 +66,11 @@
                                 </div>
                                 <div class="col-md-12" th:each="config : ${topicConfig}">
                                     <div class="form-group" th:if="${#lists.contains(configOptions, config.name)}">
-                                        <label class="form-label" th:for="${config.dotCaseName()}" th:text="${config.name}">TopicConfig</label>
+                                        <label class="form-label" th:for="${config.camelCase()}" th:text="${config.name}">TopicConfig</label>
                                         <input type="text"
                                                class="form-control"
-                                               th:id="${config.dotCaseName()}"
-                                               th:name="${config.dotCaseName()}"
+                                               th:id="${config.camelCase()}"
+                                               th:name="${config.camelCase()}"
                                                th:value="${config.value}">
                                     </div>
                                 </div>

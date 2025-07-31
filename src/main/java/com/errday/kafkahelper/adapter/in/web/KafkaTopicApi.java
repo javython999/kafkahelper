@@ -23,7 +23,7 @@ public class KafkaTopicApi {
     }
 
     @PostMapping("/topics/{topicName}")
-    public ApiResponse<TopicDescribe> describeTopic(@PathVariable String topicName, @RequestBody TopicDescribeRequest request) {
+    public ApiResponse<TopicDescribe> describeTopic(@RequestBody TopicDescribeRequest request) {
         return kafkaTopicService.describeTopic(request);
     }
 
@@ -33,8 +33,8 @@ public class KafkaTopicApi {
     }
 
     @GetMapping("/topics/{topicName}/configs")
-    public List<TopicConfigDescribe> topiConfigs(@PathVariable String topicName) {
-        return kafkaTopicService.describeTopicConfig(topicName);
+    public ResponseEntity<ApiResponse<List<TopicConfigDescribe>>> topiConfigs(TopicConfigDescribeRequest request) {
+        return ResponseEntity.ok(kafkaTopicService.describeTopicConfig(request));
     }
 
     @PatchMapping("/topics/{topicName}")
@@ -43,8 +43,8 @@ public class KafkaTopicApi {
     }
 
     @DeleteMapping("/topics/{topicName}")
-    public String deleteTopic(@PathVariable String topicName) {
-        return kafkaTopicService.deleteTopic(topicName);
+    public ResponseEntity<ApiResponse<String>> deleteTopic(@RequestBody TopicDeleteRequest request) {
+        return ResponseEntity.ok(kafkaTopicService.deleteTopic(request));
     }
 
 }

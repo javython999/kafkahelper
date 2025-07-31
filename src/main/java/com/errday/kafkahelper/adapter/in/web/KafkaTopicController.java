@@ -1,8 +1,9 @@
 package com.errday.kafkahelper.adapter.in.web;
 
-import com.errday.kafkahelper.application.service.KafkaTopicService;
+import com.errday.kafkahelper.application.port.in.KafkaTopicPort;
 import com.errday.kafkahelper.domain.model.BootstrapServer;
 import com.errday.kafkahelper.domain.model.KafkaBrokerResponse;
+import com.errday.kafkahelper.domain.model.TopicConfigDescribeRequest;
 import com.errday.kafkahelper.domain.service.KafkaBrokerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,7 @@ import java.util.List;
 public class KafkaTopicController {
 
     private final KafkaBrokerService kafkaBrokerService;
-    private final KafkaTopicService kafkaTopicService;
+    private final KafkaTopicPort kafkaTopicService;
 
     @GetMapping("/kafka/topics")
     public String topics(Model model, BootstrapServer bootstrapServer) {
@@ -44,7 +45,11 @@ public class KafkaTopicController {
     public String topicEdit(Model model, @PathVariable String topicName, BootstrapServer bootstrapServer) {
         model.addAttribute("bootstrapServer", bootstrapServer);
         model.addAttribute("topicName", topicName);
-        model.addAttribute("topicConfig", kafkaTopicService.describeTopicConfig(topicName));
+        model.addAttribute("topicConfig", kafkaTopicService.describeTopicConfig(
+                new TopicConfigDescribeRequest(
+                        bootstrapServer.host(),
+                        bootstrapServer.port(),
+                        topicName)).data());
 
         model.addAttribute("configOptions", List.of(
                         "retention.ms",

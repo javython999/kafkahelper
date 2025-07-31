@@ -12,9 +12,9 @@ public interface TopicClientPort {
 
     ApiResponse<List<String>> topicList(BootstrapServer bootstrapServer);
 
-    List<TopicConfigDescribe> describeTopicConfig(String topicName);
+    ApiResponse<List<TopicConfigDescribe>> describeTopicConfig(TopicConfigDescribeRequest request);
 
     ApiResponse<String> updateTopicConfig(String topicName, TopicEditRequest request);
 
-    String deleteTopic(String topicName);
+    ApiResponse<String> deleteTopic(TopicDeleteRequest request);
 }

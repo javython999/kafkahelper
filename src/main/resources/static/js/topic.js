@@ -67,6 +67,14 @@ function loadTopics() {
                     </button>
                 </td>
                 <td>
+                    <button type="button" 
+                            onclick="describeTopicConfig('${topic}');" 
+                            class="btn btn-icon btn-outline-secondary btn-sm">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <span>describe</span>
+                    </button>
+                </td>
+                <td>
                     <button type="button" class="btn btn-icon btn-outline-secondary btn-sm">
                         <i class="fa-solid fa-list-check"></i>
                         <span>record</span>
@@ -79,7 +87,7 @@ function loadTopics() {
                         <i class="fa-regular fa-pen-to-square"></i>
                         <span>edit</span>
                     </button>
-                    <button type="button" onclick="" class="btn  btn-outline-secondary btn-sm">
+                    <button type="button" onclick="deleteTopic('${topic}');" class="btn  btn-outline-secondary btn-sm">
                         <i class="fa-solid fa-delete-left"></i>
                         <span>delete</span>
                     </button>
@@ -220,4 +228,82 @@ function describeTopic(topicName) {
 
     fetchTopic(topicName);
     openModal('describeTopicModal');
+}
+
+function describeTopicConfig(topicName) {
+    const fetchTopic = (topicName) => {
+
+        const query = new URLSearchParams(selectedBrokerInfo()).toString();
+
+        fetch(`/api/kafka/topics/${topicName}/configs?${query}`, {
+            method: 'GET',
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.isSuccess) {
+                    setTopicConfigInfo(response.data);
+                }
+            })
+            .catch(error => {
+                console.error('에러:', error);
+            });
+    }
+
+    const setTopicConfigInfo = (configInfo) => {
+        document.getElementById('topicConfigTopicName').value = topicName;
+
+        const configSection = document.getElementById('describeTopicConfigModal').querySelector('.describeTopicConfigDiv');
+        configSection.innerHTML = '';
+        configInfo.forEach((config) => {
+            configSection.insertAdjacentHTML('beforeend', configUi(config));
+        });
+    }
+
+    const configUi = (configInfo) => {
+        return `
+            <div class="form-group">
+                <label class="form-label" for="${configInfo.camelCase}">${configInfo.name}</label>
+                <input type="text" id="${configInfo.camelCase}" class="form-control" value="${configInfo.value}" readonly>
+            </div>
+        `;
+    }
+
+    const clearTopicConfig = () => {
+        const configSection = document.getElementById('describeTopicConfigModal').querySelector('.describeTopicConfigDiv');
+        configSection.innerHTML = '';
+    }
+
+    clearTopicConfig();
+    fetchTopic(topicName);
+    openModal('describeTopicConfigModal');
+}
+
+function deleteTopic(topicName) {
+
+    const fetchDeleteTopic = (topicName) => {
+        const deleteTopicRequest = {
+            bootstrapServer: selectedBrokerInfo(),
+            topicName: topicName
+        }
+
+        fetch(`/api/kafka/topics/${topicName}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(deleteTopicRequest),
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.isSuccess) {
+                    loadTopics();
+                }
+            })
+            .catch(error => {
+                console.error('에러:', error);
+            });
+
+    }
+
+    Confirm.confirmDangerWithCallback(`${topicName} 삭제하시겠습니까?`, () => fetchDeleteTopic(topicName));
 }

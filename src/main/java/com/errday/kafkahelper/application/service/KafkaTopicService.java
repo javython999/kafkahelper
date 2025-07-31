@@ -26,15 +26,15 @@ public class KafkaTopicService implements KafkaTopicPort {
         return topicClientPort.topicList(bootstrapServer);
     }
 
-    public List<TopicConfigDescribe> describeTopicConfig(String topicName) {
-        return topicClientPort.describeTopicConfig(topicName);
+    public ApiResponse<List<TopicConfigDescribe>> describeTopicConfig(TopicConfigDescribeRequest request) {
+        return topicClientPort.describeTopicConfig(request);
     }
 
     public ApiResponse<String> updateTopicConfig(String topicName, TopicEditRequest request) {
         return topicClientPort.updateTopicConfig(topicName, request);
     }
 
-    public String deleteTopic(String topicName) {
-        return topicClientPort.deleteTopic(topicName);
+    public ApiResponse<String> deleteTopic(TopicDeleteRequest request) {
+        return topicClientPort.deleteTopic(request);
     }
 }
