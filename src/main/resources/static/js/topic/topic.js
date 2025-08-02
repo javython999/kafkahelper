@@ -75,7 +75,9 @@ function loadTopics() {
                     </button>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-icon btn-outline-secondary btn-sm">
+                    <button type="button"
+                            onclick="moveToTopicRecord('${topic}')"
+                            class="btn btn-icon btn-outline-secondary btn-sm">
                         <i class="fa-solid fa-list-check"></i>
                         <span>record</span>
                     </button>
@@ -128,6 +130,29 @@ function moveToEditTopic(topicName) {
     const form = document.createElement("form");
     form.method = 'GET';
     form.action = `/kafka/topics/${topicName}/edit`;
+
+    const brokerInfo = selectedBrokerInfo();
+
+    const host = document.createElement("input");
+    host.type = 'hidden';
+    host.name = 'host';
+    host.value = brokerInfo.host;
+
+    const port = document.createElement("input");
+    port.type = 'hidden';
+    port.name = 'port';
+    port.value = brokerInfo.port;
+
+    document.body.appendChild(form);
+    form.appendChild(host);
+    form.appendChild(port);
+    form.submit();
+}
+
+function moveToTopicRecord(topicName) {
+    const form = document.createElement("form");
+    form.method = 'GET';
+    form.action = `/kafka/topics/${topicName}/record`;
 
     const brokerInfo = selectedBrokerInfo();
 

@@ -64,28 +64,28 @@
                                                readonly>
                                     </div>
                                 </div>
-                                <div class="col-md-12" th:each="config : ${topicConfig}">
-                                    <div class="form-group" th:if="${#lists.contains(configOptions, config.name)}">
-                                        <label class="form-label" th:for="${config.camelCase()}" th:text="${config.name}">TopicConfig</label>
-                                        <input type="text"
-                                               class="form-control"
-                                               th:id="${config.camelCase()}"
-                                               th:name="${config.camelCase()}"
-                                               th:value="${config.value}">
+
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="form-label">Topic records</label>
+                                    <div class="col-md-12 newRecords" data-simplebar="init" style="height: 350px;">
+
                                     </div>
                                 </div>
                             </div>
-                            <div class="btn-toolbar justify-content-end">
-                                <div class="input-group">
-                                    <button type="button" class="btn btn-outline-secondary" onclick="moveToTopicList();">cancel</button>
-                                    <button type="button" class="btn btn-primary" onclick="editTopic();">Edit</button>
+                            <div class="row">
+                                <div class="btn-toolbar justify-content-end">
+                                    <div class="input-group">
+                                        <button type="button" class="btn btn-outline-secondary" onclick="moveToTopicList();">cancel</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
-            <script src="/js/topic/topicEdit.js"></script>
+            <script src="/js/topic/topicRecord.js"></script>
         </div>
     </div>
 </body>

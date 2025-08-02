@@ -32,6 +32,7 @@ dependencies {
     implementation 'org.springframework.kafka:spring-kafka'
     implementation 'p6spy:p6spy:3.9.1'
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.19.2'
 
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'

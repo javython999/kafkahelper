@@ -20,6 +20,20 @@ public class KafkaTopicController {
 
     private final KafkaBrokerService kafkaBrokerService;
     private final KafkaTopicPort kafkaTopicService;
+    private final List<String> configOptions = List.of(
+            "retention.ms",
+            "retention.bytes",
+            "cleanup.policy",
+            "max.message.bytes",
+            "segment.bytes",
+            "segment.ms",
+            "min.cleanable.dirty.ratio",
+            "delete.retention.ms",
+            "flush.messages",
+            "flush.ms",
+            "message.timestamp.type",
+            "compression.type"
+    );
 
     @GetMapping("/kafka/topics")
     public String topics(Model model, BootstrapServer bootstrapServer) {
@@ -51,22 +65,17 @@ public class KafkaTopicController {
                         bootstrapServer.port(),
                         topicName)).data());
 
-        model.addAttribute("configOptions", List.of(
-                        "retention.ms",
-                        "retention.bytes",
-                        "cleanup.policy",
-                        "max.message.bytes",
-                        "segment.bytes",
-                        "segment.ms",
-                        "min.cleanable.dirty.ratio",
-                        "delete.retention.ms",
-                        "flush.messages",
-                        "flush.ms",
-                        "message.timestamp.type",
-                        "compression.type"
-                )
-        );
+        model.addAttribute("configOptions", configOptions);
 
         return "kafka/topics/edit";
+    }
+
+    @GetMapping("/kafka/topics/{topicName}/record")
+    public String topicRecord(Model model, @PathVariable String topicName, BootstrapServer bootstrapServer) {
+        model.addAttribute("bootstrapServer", bootstrapServer);
+        model.addAttribute("topicName", topicName);
+
+
+        return "kafka/topics/record";
     }
 }
