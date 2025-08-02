@@ -171,7 +171,7 @@ public class TopicAdapter implements TopicClientPort {
 
             log.error("create topic = {} fail",topicName, e);
 
-            return ApiResponse.success("An error occurred while edit", "success");
+            return ApiResponse.success("An error occurred while edit", "error");
         }
 
     }

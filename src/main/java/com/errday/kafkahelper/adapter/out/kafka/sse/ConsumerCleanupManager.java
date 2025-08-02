@@ -1,5 +1,6 @@
 package com.errday.kafkahelper.adapter.out.kafka.sse;
 
+import jakarta.annotation.PreDestroy;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -25,5 +26,10 @@ public class ConsumerCleanupManager {
     public void cancelCleanup(String topic) {
         ScheduledFuture<?> future = cleanupTasks.remove(topic);
         if (future != null) future.cancel(false);
+    }
+
+    @PreDestroy
+    public void destroy() {
+        scheduler.shutdown();
     }
 }

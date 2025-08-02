@@ -10,11 +10,11 @@
             <div class="row align-items-center">
                 <div class="col-md-12">
                     <div class="page-header-title">
-                        <h5 class="m-b-10">Kafka Topics</h5>
+                        <h5 class="m-b-10">Kafka Producer</h5>
                     </div>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/">Home</a></li>
-                        <li class="breadcrumb-item"><a href="/kafka/topics">Kafka Topics</a></li>
+                        <li class="breadcrumb-item"><a href="/kafka/producer">Kafka Producer</a></li>
                     </ul>
                 </div>
             </div>
@@ -38,8 +38,7 @@
                                             th:value="${kafkaBroker.id}"
                                             th:data-host="${kafkaBroker.host}"
                                             th:data-port="${kafkaBroker.port}"
-                                            th:text="${kafkaBroker.alias + '( ' + kafkaBroker.host + ' : ' + kafkaBroker.port + ' )'}"
-                                            th:selected="${kafkaBroker.host == bootstrapServer.host} and ${kafkaBroker.port == bootstrapServer.port}">
+                                            th:text="${kafkaBroker.alias + '( ' + kafkaBroker.host + ' : ' + kafkaBroker.port + ' )'}">
                                     </option>
                                 </select>
                                 <button type="button" class="btn btn-outline-primary" onclick="loadTopics();">search</button>
@@ -65,10 +64,7 @@
                             <tr>
                                 <th style="width: 10%;">#</th>
                                 <th>Topic</th>
-                                <th style="width: 10%;">Topic describe</th>
-                                <th style="width: 10%;">Topic config</th>
-                                <th style="width: 10%;">Record</th>
-                                <th style="width: 10%;">Management</th>
+                                <th style="width: 10%;">send</th>
                             </tr>
                             </thead>
                             <tbody id="topicTable">
@@ -80,64 +76,39 @@
             </div>
         </div>
 
-        <div id="describeTopicModal" class="modal fade" tabindex="-1" aria-labelledby="describeModalTitle" style="display: none;" aria-hidden="true">
+        <div id="sendMessageModal" class="modal fade" tabindex="-1" aria-labelledby="sendMessageModalTitle" style="display: none;" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="describeModalTitle">Describe topic</h5>
+                        <h5 class="modal-title" id="sendMessageModalTitle">Send message to topic</h5>
                         <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label class="form-label" for="describeTopicName">Topic Name</label>
+                            <label class="form-label" for="receiveTopicName">Topic Name</label>
                             <input type="text"
                                    class="form-control"
-                                   id="describeTopicName"
+                                   id="receiveTopicName"
                                    readonly>
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="describeTopicInternal">internal</label>
-                            <input type="text"
-                                   class="form-control"
-                                   id="describeTopicInternal"
-                                   readonly>
-                        </div>
-                        <div class="form-group describeTopicPartitionsDiv">
+                            <div class="input-group">
+                                <span class="input-group-text">Key</span>
+                                <input type="text" id="messageKey" class="form-control">
+                                <span class="input-group-text">Value</span>
+                                <input type="text" id="messageValue" class="form-control">
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearModalInputs();">Close</button>
+                        <button type="button" class="btn  btn-primary" onclick="send();">Send</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="describeTopicConfigModal" class="modal fade" tabindex="-1" aria-labelledby="describeTopicConfigModalTitle" style="display: none;" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="describeTopicConfigModalTitle">Topic config</h5>
-                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label class="form-label" for="topicConfigTopicName">Topic Name</label>
-                            <input type="text"
-                                   class="form-control"
-                                   id="topicConfigTopicName"
-                                   readonly>
-                        </div>
-                        <div class="form-group describeTopicConfigDiv">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearModalInputs();">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <script src="/js/kafka/topic/topic.js"></script>
+        <script src="/js/kafka/producer/producer.js"></script>
     </div>
 
 </div>

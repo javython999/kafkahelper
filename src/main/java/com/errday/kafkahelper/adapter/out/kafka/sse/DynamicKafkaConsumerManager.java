@@ -1,6 +1,7 @@
 package com.errday.kafkahelper.adapter.out.kafka.sse;
 
 import com.errday.kafkahelper.domain.model.KafkaSseRequest;
+import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -74,5 +75,10 @@ public class DynamicKafkaConsumerManager {
             log.info("Kafka Consumer for topic [{}] closed due to inactivity", topic);
             consumer.wakeup(); // poll 중인 스레드 종료 유도
         }
+    }
+
+    @PreDestroy
+    public void destroy() {
+        executor.shutdown();
     }
 }
