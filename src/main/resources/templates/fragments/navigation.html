@@ -1,28 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-    <!-- Sidebar Navigation -->
     <div th:fragment="navigation" class="navbar-wrapper">
         <div class="m-header">
-            <a href="index.html" class="b-brand">
-                <!-- ========   change your logo hear   ============ -->
-                <img src="/images/logo.svg" alt="" class="logo logo-lg">
-                <img src="assets/images/logo-sm.svg" alt="" class="logo logo-sm">
+            <a href="/kafka/brokers" class="b-brand">
+                <img src="/images/logo.png" alt="" class="logo logo-lg" style="width: 170px; height: auto;">
             </a>
         </div>
         <div class="navbar-content ps ps--active-y">
             <ul class="pc-navbar">
                 <li class="pc-item pc-caption">
-                    <label>Navigation</label>
-                </li>
-                <li class="pc-item active">
-                    <a href="/" class="pc-link "><span class="pc-micon"><i class="material-icons-two-tone">home</i></span><span class="pc-mtext">Dashboard</span></a>
-                </li>
-                <li class="pc-item pc-caption">
                     <label>Kafka</label>
                     <span>Management</span>
                 </li>
-                <li class="pc-item">
+                <li class="pc-item" th:classappend="${module == 'brokers' || module == null} ? active">
                     <a href="/kafka/brokers" class="pc-link">
                         <span class="pc-micon">
                             <i class="fa-solid fa-microchip"></i>
@@ -30,7 +21,7 @@
                         <span class="pc-mtext">Broker</span>
                     </a>
                 </li>
-                <li class="pc-item">
+                <li class="pc-item" th:classappend="${module == 'topics'} ? active">
                     <a href="/kafka/topics" class="pc-link">
                         <span class="pc-micon">
                             <i class="fa-solid fa-list-check"></i>
@@ -38,7 +29,7 @@
                         <span class="pc-mtext">Topic</span>
                     </a>
                 </li>
-                <li class="pc-item">
+                <li class="pc-item" th:classappend="${module == 'producer'} ? active">
                     <a href="/kafka/producer" class="pc-link">
                         <span class="pc-micon">
                             <i class="fa-solid fa-paper-plane"></i>
@@ -47,7 +38,7 @@
                     </a>
                 </li>
             </ul>
+        </div>
     </div>
-
 </body>
 </html>

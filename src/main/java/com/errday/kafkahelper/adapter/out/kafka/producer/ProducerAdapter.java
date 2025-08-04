@@ -1,7 +1,7 @@
 package com.errday.kafkahelper.adapter.out.kafka.producer;
 
 import com.errday.kafkahelper.application.port.out.ProducerClientPort;
-import com.errday.kafkahelper.domain.model.RegisterRecordRequest;
+import com.errday.kafkahelper.adapter.in.web.dto.RegisterRecordRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerConfig;

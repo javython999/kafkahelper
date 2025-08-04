@@ -1,13 +1,16 @@
 package com.errday.kafkahelper.domain.model;
 
+import com.errday.kafkahelper.adapter.out.kafka.persistence.KafkaBrokerEntity;
+
 import java.lang.reflect.Field;
 
 public class KafkaBrokerFixture {
 
-    public static KafkaBroker kafkaBroker(Long id, String alias, String host, int port) {
-        KafkaBrokerRegisterRequest request = new KafkaBrokerRegisterRequest(alias, new BootstrapServer(host, port));
+    public static KafkaBrokerEntity kafkaBrokerEntity(Long id, String alias, String host, int port) {
+        KafkaBroker kafkaBroker = KafkaBroker.of(id, alias, host, port);
 
-        KafkaBroker kafkaBroker = KafkaBroker.of(request);
+
+        KafkaBrokerEntity kafkaBrokerEntity = KafkaBrokerEntity.from(kafkaBroker);
 
         try {
             Field idField = KafkaBroker.class.getDeclaredField("id");
@@ -17,6 +20,6 @@ public class KafkaBrokerFixture {
             throw new RuntimeException(e);
         }
 
-        return kafkaBroker;
+        return kafkaBrokerEntity;
     }
 }

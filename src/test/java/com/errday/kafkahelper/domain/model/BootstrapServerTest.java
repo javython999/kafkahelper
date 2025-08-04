@@ -1,5 +1,6 @@
 package com.errday.kafkahelper.domain.model;
 
+import com.errday.kafkahelper.application.dto.BootstrapServer;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

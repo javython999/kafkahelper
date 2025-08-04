@@ -1,6 +1,6 @@
 package com.errday.kafkahelper.adapter.out.kafka.sse;
 
-import com.errday.kafkahelper.domain.model.KafkaSseRequest;
+import com.errday.kafkahelper.adapter.in.web.dto.KafkaSseRequest;
 import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

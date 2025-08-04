@@ -1,6 +1,7 @@
 package com.errday.kafkahelper.application.port.out;
 
-import com.errday.kafkahelper.domain.model.*;
+import com.errday.kafkahelper.adapter.in.web.dto.*;
+import com.errday.kafkahelper.application.dto.BootstrapServer;
 
 import java.util.List;
 

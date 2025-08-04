@@ -34,7 +34,7 @@ function loadBrokers() {
 
     const brokerUi = (broker, index) => {
         return `
-            <tr>
+            <tr data-alias="${broker.alias}" data-host="${broker.bootstrapServer.host}">
                 <td>${index}</td>
                 <td>${broker.alias}</td>
                 <td>${broker.bootstrapServer.host}</td>
@@ -258,4 +258,27 @@ function deleteBroker(brokerAlias, brokerId) {
     }
 
     Confirm.confirmDangerWithCallback(`${brokerAlias} 삭제하시겠습니까?`, () => fetchDeleteBroker(brokerId));
+}
+
+function filterBrokers(filterInput) {
+    const keyword = filterInput.value.toLowerCase();
+    const brokers = Array.from(document.getElementById('brokerTable').querySelectorAll('tr'));
+
+    if (keyword === "") {
+        brokers.forEach(broker => {
+            broker.style.display = 'table-row';
+        });
+        return;
+    }
+
+    brokers.forEach(broker => {
+        const alias = broker.dataset.alias;
+        const host = broker.dataset.host;
+
+        if (alias.toLowerCase().indexOf(keyword) === -1 && host.toLowerCase().indexOf(keyword) === -1) {
+            broker.style.display = 'none';
+        } else {
+            broker.style.display = 'table-row';
+        }
+    });
 }

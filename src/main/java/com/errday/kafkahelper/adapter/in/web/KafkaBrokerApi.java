@@ -1,10 +1,12 @@
 package com.errday.kafkahelper.adapter.in.web;
 
-import com.errday.kafkahelper.domain.model.KafkaBroker;
-import com.errday.kafkahelper.domain.model.KafkaBrokerRegisterRequest;
-import com.errday.kafkahelper.domain.model.KafkaBrokerResponse;
-import com.errday.kafkahelper.domain.model.KafkaBrokerUpdateRequest;
-import com.errday.kafkahelper.domain.service.KafkaBrokerService;
+import com.errday.kafkahelper.adapter.in.web.dto.KafkaBrokerUpdateRequest;
+import com.errday.kafkahelper.application.dto.KafkaBrokerRegisterRequest;
+import com.errday.kafkahelper.application.dto.KafkaBrokerResponse;
+import com.errday.kafkahelper.application.port.in.KafkaBrokerDeleteUseCase;
+import com.errday.kafkahelper.application.port.in.KafkaBrokerRegisterUseCase;
+import com.errday.kafkahelper.application.port.in.KafkaBrokerListUseCase;
+import com.errday.kafkahelper.application.port.in.KafkaBrokerUpdateUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -19,51 +21,48 @@ import java.util.List;
 @RequestMapping("/api/kafka")
 public class KafkaBrokerApi {
 
-    private final KafkaBrokerService kafkaBrokerService;
+    private final KafkaBrokerRegisterUseCase kafkaBrokerRegisterUseCase;
+    private final KafkaBrokerListUseCase kafkaBrokerListUseCase;
+    private final KafkaBrokerUpdateUseCase kafkaBrokerUpdateUseCase;
+    private final KafkaBrokerDeleteUseCase kafkaBrokerDeleteUseCase;
 
     @GetMapping("/brokers")
     public ResponseEntity<List<KafkaBrokerResponse>> listBrokers() {
-        List<KafkaBrokerResponse> brokers = kafkaBrokerService.findAll().stream()
-                .map(KafkaBrokerResponse::from)
-                .toList();
-
-        return ResponseEntity.ok(brokers);
+        return ResponseEntity.ok(kafkaBrokerListUseCase.findAll());
     }
 
     @PostMapping("/brokers")
     public ResponseEntity<KafkaBrokerResponse> registerBroker(@RequestBody KafkaBrokerRegisterRequest request) {
-        KafkaBroker saved = kafkaBrokerService.save(request);
-        return ResponseEntity.ok(KafkaBrokerResponse.from(saved));
+        return ResponseEntity.ok(kafkaBrokerRegisterUseCase.register(request));
     }
 
     @GetMapping("/brokers/{brokerId}")
     public ResponseEntity<KafkaBrokerResponse> brokerDetail(@PathVariable Long brokerId) {
-        return ResponseEntity.ok(KafkaBrokerResponse.from(kafkaBrokerService.findById(brokerId)));
+        return ResponseEntity.ok(kafkaBrokerListUseCase.findById(brokerId));
     }
 
     @PutMapping("/brokers/{brokerId}")
     public ResponseEntity<KafkaBrokerResponse> updateBroker(@PathVariable Long brokerId, @RequestBody KafkaBrokerUpdateRequest request) {
-        KafkaBroker broker = kafkaBrokerService.findById(brokerId);
+        KafkaBrokerResponse findById = kafkaBrokerListUseCase.findById(brokerId);
 
-        if (!broker.getAlias().equals(request.oldAlias())) {
+        if (!findById.alias().equals(request.oldAlias())) {
             return ResponseEntity.badRequest().build();
         }
 
-        if (!broker.getHost().equals(request.oldHost())) {
+        if (!findById.host().equals(request.oldHost())) {
             return ResponseEntity.badRequest().build();
         }
 
-        if (!broker.getPort().equals(request.oldPort())) {
+        if (findById.port() != request.oldPort()) {
             return ResponseEntity.badRequest().build();
         }
 
-        KafkaBroker updated = kafkaBrokerService.update(request);
-        return ResponseEntity.ok(KafkaBrokerResponse.from(updated));
+        return ResponseEntity.ok(kafkaBrokerUpdateUseCase.update(request));
     }
 
     @DeleteMapping("/brokers/{brokerId}")
     public ResponseEntity<Boolean> deleteBroker(@PathVariable Long brokerId) {
-        return ResponseEntity.ok(kafkaBrokerService.deleteById(brokerId));
+        return ResponseEntity.ok(kafkaBrokerDeleteUseCase.deleteById(brokerId));
     }
 
 
