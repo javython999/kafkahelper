@@ -55,12 +55,12 @@ function loadTopics() {
 
     const topicUi = (topic, index) => {
         return `
-            <tr data-name="${topic}">
+            <tr data-name="${topic.topicName}">
                 <td>${index + 1}</td>
-                <td>${topic}</td>
+                <td>${topic.topicName}</td>
                 <td>
                     <button type="button" 
-                            onclick="sendMessage('${topic}');" 
+                            onclick="sendMessage('${topic.topicName}');" 
                             class="btn btn-icon btn-outline-secondary btn-sm">
                             <i class="fa-solid fa-paper-plane"></i>
                             <span>send</span>

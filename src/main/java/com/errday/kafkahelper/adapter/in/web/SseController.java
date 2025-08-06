@@ -11,7 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 @RestController
 @RequestMapping("/kafka/sse")
 @RequiredArgsConstructor
-public class KafkaSseController {
+public class SseController {
 
     private final SseEmitters sseEmitters;
     private final DynamicKafkaConsumerManager consumerManager;

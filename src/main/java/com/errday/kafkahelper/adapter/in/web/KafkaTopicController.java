@@ -3,9 +3,8 @@ package com.errday.kafkahelper.adapter.in.web;
 import com.errday.kafkahelper.adapter.in.web.dto.TopicConfigDescribeRequest;
 import com.errday.kafkahelper.application.dto.KafkaBootstrapServerRequest;
 import com.errday.kafkahelper.application.dto.KafkaBrokerResponse;
-import com.errday.kafkahelper.application.port.in.KafkaBrokerListUseCase;
-import com.errday.kafkahelper.application.port.in.KafkaTopicPort;
-import com.errday.kafkahelper.application.port.in.KafkaTopicRegisterUseCase;
+import com.errday.kafkahelper.application.dto.KafkaTopicRequest;
+import com.errday.kafkahelper.application.port.in.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +20,7 @@ import java.util.List;
 public class KafkaTopicController {
 
     private final KafkaBrokerListUseCase kafkaBrokerListUseCase;
-    private final KafkaTopicPort kafkaTopicService;
+    private final KafkaTopicConfigDescribeUseCase kafkaTopicConfigDescribeUseCase;
     private final List<String> configOptions = List.of(
             "retention.ms",
             "retention.bytes",
@@ -64,11 +63,17 @@ public class KafkaTopicController {
     public String topicEdit(@PathVariable String topicName, Model model, KafkaBootstrapServerRequest kafkaBootstrapServerRequest) {
         model.addAttribute("bootstrapServer", kafkaBootstrapServerRequest);
         model.addAttribute("topicName", topicName);
-        model.addAttribute("topicConfig", kafkaTopicService.describeTopicConfig(
-                new TopicConfigDescribeRequest(
-                        kafkaBootstrapServerRequest.host(),
-                        kafkaBootstrapServerRequest.port(),
-                        topicName)).data());
+        model.addAttribute(
+                "topicConfig",
+                kafkaTopicConfigDescribeUseCase.configDescribe(
+                        new KafkaTopicRequest(
+                                kafkaBootstrapServerRequest,
+                                topicName,
+                                null,
+                                null,
+                                null)
+                )
+        );
 
         model.addAttribute("configOptions", configOptions);
 
