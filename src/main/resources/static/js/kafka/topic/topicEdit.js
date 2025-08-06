@@ -25,8 +25,8 @@ function editTopic() {
             host: form.querySelector('#host').value,
             port: form.querySelector('#port').value,
         },
+        topicName: form.querySelector('#topicName').value,
         config: {
-            topicName: form.querySelector('#topicName').value,
             retentionMs: form.querySelector('#retentionMs').value,
             retentionBytes: form.querySelector('#retentionBytes').value,
             cleanupPolicy: form.querySelector('#cleanupPolicy').value,

@@ -1,4 +1,4 @@
-package com.errday.kafkahelper.adapter.out.kafka.persistence;
+package com.errday.kafkahelper.adapter.out.kafka.broker;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,7 +1,7 @@
-package com.errday.kafkahelper.adapter.out.kafka.persistence;
+package com.errday.kafkahelper.adapter.out.kafka.broker;
 
 import com.errday.kafkahelper.application.port.out.KafkaBrokerPersistencePort;
-import com.errday.kafkahelper.domain.model.KafkaBroker;
+import com.errday.kafkahelper.domain.KafkaBroker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

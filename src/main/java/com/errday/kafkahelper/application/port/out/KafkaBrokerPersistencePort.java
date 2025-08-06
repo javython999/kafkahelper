@@ -1,6 +1,6 @@
 package com.errday.kafkahelper.application.port.out;
 
-import com.errday.kafkahelper.domain.model.KafkaBroker;
+import com.errday.kafkahelper.domain.KafkaBroker;
 
 public interface KafkaBrokerPersistencePort {
 

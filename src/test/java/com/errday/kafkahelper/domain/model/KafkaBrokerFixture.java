@@ -1,6 +1,7 @@
 package com.errday.kafkahelper.domain.model;
 
-import com.errday.kafkahelper.adapter.out.kafka.persistence.KafkaBrokerEntity;
+import com.errday.kafkahelper.adapter.out.kafka.broker.KafkaBrokerEntity;
+import com.errday.kafkahelper.domain.KafkaBroker;
 
 import java.lang.reflect.Field;
 

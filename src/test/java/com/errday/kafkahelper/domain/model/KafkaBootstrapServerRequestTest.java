@@ -1,11 +1,11 @@
 package com.errday.kafkahelper.domain.model;
 
-import com.errday.kafkahelper.application.dto.BootstrapServer;
+import com.errday.kafkahelper.application.dto.KafkaBootstrapServerRequest;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class BootstrapServerTest {
+class KafkaBootstrapServerRequestTest {
 
 
     @Test
@@ -13,7 +13,7 @@ class BootstrapServerTest {
         String host = "localhost";
         int port = 9092;
 
-        BootstrapServer localhost = new BootstrapServer(host, port);
+        KafkaBootstrapServerRequest localhost = new KafkaBootstrapServerRequest(host, port);
 
         assertThat(localhost.host()).isEqualTo(host);
         assertThat(localhost.port()).isEqualTo(port);

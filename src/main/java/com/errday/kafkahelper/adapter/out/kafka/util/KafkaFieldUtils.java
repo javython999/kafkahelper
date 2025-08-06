@@ -6,9 +6,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class KafkaUtils {
+public class KafkaFieldUtils {
 
-    private KafkaUtils() {
+    private KafkaFieldUtils() {
     }
 
     public static Map<String, String> getNonNullFields(Object obj) {

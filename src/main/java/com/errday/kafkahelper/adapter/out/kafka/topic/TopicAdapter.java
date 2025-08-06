@@ -1,8 +1,8 @@
 package com.errday.kafkahelper.adapter.out.kafka.topic;
 
 import com.errday.kafkahelper.adapter.in.web.dto.*;
-import com.errday.kafkahelper.adapter.out.kafka.util.KafkaUtils;
-import com.errday.kafkahelper.application.dto.BootstrapServer;
+import com.errday.kafkahelper.adapter.out.kafka.util.KafkaFieldUtils;
+import com.errday.kafkahelper.application.dto.KafkaBootstrapServerRequest;
 import com.errday.kafkahelper.application.port.out.TopicClientPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,94 +18,6 @@ import java.util.concurrent.ExecutionException;
 @Component
 @RequiredArgsConstructor
 public class TopicAdapter implements TopicClientPort {
-
-    @Value("${kafka.bootstrap-server}")
-    private String BOOTSTRAP_SERVER;
-
-    @Override
-    public ApiResponse<String> createTopic(TopicCreateRequest request) {
-
-        Properties config = new Properties();
-        config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, request.bootStrapServerAddress());
-
-        try (AdminClient admin = AdminClient.create(config)) {
-
-            NewTopic topic = new NewTopic(request.topicName(), request.partitions(), request.replicationFactor())
-                    .configs(KafkaUtils.getNonNullFields(request.config()));
-            admin.createTopics(List.of(topic)).all().get();
-
-            return ApiResponse.success(
-                    String.format("Successfully created topic: %s",
-                    request.topicName()), request.topicName()
-            );
-        } catch (ExecutionException | InterruptedException e) {
-
-            return ApiResponse.error(
-                    String.format("An error occurred while creating the topic: %s", e.getCause()),
-                    request.topicName()
-            );
-        }
-    }
-
-    @Override
-    public ApiResponse<TopicDescribe> describeTopic(TopicDescribeRequest request) {
-
-        Properties config = new Properties();
-        config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, request.bootStrapServerAddress());
-
-        try (AdminClient admin = AdminClient.create(config)) {
-
-            DescribeTopicsResult result = admin.describeTopics(List.of(request.topicName()));
-
-            TopicDescription description = result.topicNameValues()
-                    .get(request.topicName())
-                    .get();
-
-            List<TopicPartitionDescribe> partitions = description.partitions()
-                    .stream()
-                    .map(partition -> new TopicPartitionDescribe(
-                            partition.partition(),
-                            partition.leader().toString(),
-                            partition.isr().toString(),
-                            partition.replicas().toString()))
-                    .toList();
-
-            return ApiResponse.success("success", new TopicDescribe(request.topicName(), description.isInternal(), partitions));
-        } catch (ExecutionException | InterruptedException e) {
-
-            log.error("describe topic = {} fail", request.topicName(), e);
-
-            return ApiResponse.error("error", null);
-        }
-
-    }
-
-    @Override
-    public ApiResponse<List<String>> topicList(BootstrapServer bootstrapServer) {
-
-        Properties config = new Properties();
-        config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer.address());
-
-        try (AdminClient admin = AdminClient.create(config)) {
-
-            ListTopicsOptions options = new ListTopicsOptions();
-            options.listInternal(false);
-
-            ListTopicsResult topics = admin.listTopics(options);
-
-            List<String> sorted = topics.names().get().stream()
-                    .sorted()
-                    .toList();
-
-            return ApiResponse.success("success", sorted);
-
-        } catch (ExecutionException | InterruptedException e) {
-
-            log.error("topic list fail", e);
-
-            return ApiResponse.error("error", Collections.emptyList());
-        }
-    }
 
     @Override
     public ApiResponse<List<TopicConfigDescribe>> describeTopicConfig(TopicConfigDescribeRequest request) {
@@ -125,7 +37,7 @@ public class TopicAdapter implements TopicClientPort {
                     .stream()
                     .map(configEntry -> new TopicConfigDescribe(
                             configEntry.name(),
-                            KafkaUtils.dotCaseToCamelCase(configEntry.name()),
+                            KafkaFieldUtils.dotCaseToCamelCase(configEntry.name()),
                             configEntry.value(),
                             configEntry.isDefault(),
                             configEntry.isReadOnly(),
@@ -152,7 +64,7 @@ public class TopicAdapter implements TopicClientPort {
         try (AdminClient admin = AdminClient.create(config)) {
             ConfigResource resource = new ConfigResource(ConfigResource.Type.TOPIC, topicName);
 
-            List<AlterConfigOp> configs = KafkaUtils.getNonNullFields(request.config())
+            List<AlterConfigOp> configs = KafkaFieldUtils.getNonNullFields(request.config())
                     .entrySet()
                     .stream()
                     .map(entry -> new AlterConfigOp(

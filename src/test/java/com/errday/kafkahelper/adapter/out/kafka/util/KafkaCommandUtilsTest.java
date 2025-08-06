@@ -1,6 +1,6 @@
 package com.errday.kafkahelper.adapter.out.kafka.util;
 
-import com.errday.kafkahelper.application.dto.BootstrapServer;
+import com.errday.kafkahelper.application.dto.KafkaBootstrapServerRequest;
 import com.errday.kafkahelper.adapter.in.web.dto.TopicEditConfig;
 import com.errday.kafkahelper.adapter.in.web.dto.TopicEditRequest;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ class KafkaCommandUtilsTest {
     @Test
     void getNonNullFields() {
         TopicEditRequest testCase = new TopicEditRequest(
-                new BootstrapServer("localhost", 9092),
+                new KafkaBootstrapServerRequest("localhost", 9092),
                 new TopicEditConfig(604800000L,
                         1073741824L,
                         null,
@@ -29,7 +29,7 @@ class KafkaCommandUtilsTest {
                         "gzip")
         );
 
-        Map<String, String> actual = KafkaUtils.getNonNullFields(testCase.config());
+        Map<String, String> actual = KafkaFieldUtils.getNonNullFields(testCase.config());
 
         assertThat(actual)
                 .containsEntry("retention.ms", "604800000")

@@ -38,6 +38,7 @@ function loadTopics() {
             .then(response => response.json())
             .then(response => {
                 clearTopics();
+                console.log(response);
                 if (response.isSuccess) {
                     renderTopics(response.data);
                 }
@@ -55,12 +56,12 @@ function loadTopics() {
 
     const topicUi = (topic, index) => {
         return `
-            <tr data-name="${topic}">
+            <tr data-name="${topic.topicName}">
                 <td>${index + 1}</td>
-                <td>${topic}</td>
+                <td>${topic.topicName}</td>
                 <td>
                     <button type="button" 
-                            onclick="describeTopic('${topic}');" 
+                            onclick="describeTopic('${topic.topicName}');" 
                             class="btn btn-icon btn-outline-secondary btn-sm">
                             <i class="fa-solid fa-circle-info"></i>
                             <span>describe</span>
@@ -68,7 +69,7 @@ function loadTopics() {
                 </td>
                 <td>
                     <button type="button" 
-                            onclick="describeTopicConfig('${topic}');" 
+                            onclick="describeTopicConfig('${topic.topicName}');" 
                             class="btn btn-icon btn-outline-secondary btn-sm">
                             <i class="fa-solid fa-circle-info"></i>
                             <span>describe</span>
@@ -76,7 +77,7 @@ function loadTopics() {
                 </td>
                 <td>
                     <button type="button"
-                            onclick="moveToTopicRecord('${topic}')"
+                            onclick="moveToTopicRecord('${topic.topicName}')"
                             class="btn btn-icon btn-outline-secondary btn-sm">
                         <i class="fa-solid fa-list-check"></i>
                         <span>record</span>
@@ -84,12 +85,12 @@ function loadTopics() {
                 </td>
                 <td>
                     <button type="button" 
-                            onclick="moveToEditTopic('${topic}');" 
+                            onclick="moveToEditTopic('${topic.topicName}');" 
                             class="btn btn-icon btn-outline-secondary btn-sm">
                         <i class="fa-regular fa-pen-to-square"></i>
                         <span>edit</span>
                     </button>
-                    <button type="button" onclick="deleteTopic('${topic}');" class="btn  btn-outline-secondary btn-sm">
+                    <button type="button" onclick="deleteTopic('${topic.topicName}');" class="btn  btn-outline-secondary btn-sm">
                         <i class="fa-solid fa-delete-left"></i>
                         <span>delete</span>
                     </button>
@@ -258,10 +259,17 @@ function describeTopic(topicName) {
 function describeTopicConfig(topicName) {
     const fetchTopic = (topicName) => {
 
-        const query = new URLSearchParams(selectedBrokerInfo()).toString();
+        const topicInfoRequest = {
+            topicName: topicName,
+            bootstrapServer: selectedBrokerInfo()
+        }
 
-        fetch(`/api/kafka/topics/${topicName}/configs?${query}`, {
-            method: 'GET',
+        fetch(`/api/kafka/topics/${topicName}/configs`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(topicInfoRequest)
         })
             .then(response => response.json())
             .then(response => {

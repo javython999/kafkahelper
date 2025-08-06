@@ -1,6 +1,6 @@
-package com.errday.kafkahelper.adapter.out.kafka.persistence;
+package com.errday.kafkahelper.adapter.out.kafka.broker;
 
-import com.errday.kafkahelper.domain.model.KafkaBroker;
+import com.errday.kafkahelper.domain.KafkaBroker;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

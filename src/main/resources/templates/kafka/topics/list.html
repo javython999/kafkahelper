@@ -39,7 +39,7 @@
                                             th:data-host="${kafkaBroker.host}"
                                             th:data-port="${kafkaBroker.port}"
                                             th:text="${kafkaBroker.alias + '( ' + kafkaBroker.host + ' : ' + kafkaBroker.port + ' )'}"
-                                            th:selected="${kafkaBroker.host == bootstrapServer.host} and ${kafkaBroker.port == bootstrapServer.port}">
+                                            th:selected="${kafkaBroker.host == kafkaBootstrapServerRequest.host} and ${kafkaBroker.port == kafkaBootstrapServerRequest.port}">
                                     </option>
                                 </select>
                                 <button type="button" class="btn btn-outline-primary" onclick="loadTopics();">search</button>

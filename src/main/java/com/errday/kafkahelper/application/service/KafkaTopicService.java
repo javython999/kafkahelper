@@ -1,9 +1,10 @@
 package com.errday.kafkahelper.application.service;
 
-import com.errday.kafkahelper.adapter.in.web.dto.*;
-import com.errday.kafkahelper.application.dto.BootstrapServer;
-import com.errday.kafkahelper.application.port.in.KafkaTopicPort;
-import com.errday.kafkahelper.application.port.out.TopicClientPort;
+import com.errday.kafkahelper.application.dto.*;
+import com.errday.kafkahelper.application.port.in.*;
+import com.errday.kafkahelper.application.port.out.KafkaTopicCommandPort;
+import com.errday.kafkahelper.domain.KafkaBootStrapServer;
+import com.errday.kafkahelper.domain.KafkaTopic;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,31 +12,83 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class KafkaTopicService implements KafkaTopicPort {
+public class KafkaTopicService implements KafkaTopicRegisterUseCase, KafkaTopicDescribeUseCase, KafkaTopicListUseCase, KafkaTopicConfigDescribeUseCase, KafkaTopicUpdateUseCase, KafkaTopicDeleteUseCase {
 
-    private final TopicClientPort topicClientPort;
+    private final KafkaTopicCommandPort kafkaTopicCommandPort;
 
-    public ApiResponse<String> createTopic(TopicCreateRequest request) {
-        return topicClientPort.createTopic(request);
+    @Override
+    public KafkaTopicResponse register(KafkaTopicRequest request) {
+        KafkaTopic kafkaTopic = KafkaTopic.of(
+                KafkaBootStrapServer.of(request.bootstrapServer().host(), request.bootstrapServer().port()),
+                request.topicName(),
+                request.partitions(),
+                request.replicationFactor(),
+                request.config()
+        );
+        KafkaTopic saved = kafkaTopicCommandPort.save(kafkaTopic);
+        return new KafkaTopicResponse(saved.getTopicName());
     }
 
-    public ApiResponse<TopicDescribe> describeTopic(TopicDescribeRequest request) {
-        return topicClientPort.describeTopic(request);
+    @Override
+    public KafkaTopicDescribeResponse describe(KafkaTopicRequest request) {
+        KafkaTopic kafkaTopic = KafkaTopic.of(
+                KafkaBootStrapServer.of(request.bootstrapServer().host(), request.bootstrapServer().port()),
+                request.topicName(),
+                request.partitions(),
+                request.replicationFactor(),
+                request.config()
+        );
+        return KafkaTopicDescribeResponse.from(kafkaTopicCommandPort.describe(kafkaTopic));
     }
 
-    public ApiResponse<List<String>> topicList(BootstrapServer bootstrapServer) {
-        return topicClientPort.topicList(bootstrapServer);
+    @Override
+    public List<KafkaTopicResponse> findAll(KafkaBootstrapServerRequest request) {
+        return kafkaTopicCommandPort.findAll(KafkaBootStrapServer.of(request.host(), request.port()))
+                .stream()
+                .map(kafkaTopic -> new KafkaTopicResponse(kafkaTopic.getTopicName()))
+                .toList();
     }
 
-    public ApiResponse<List<TopicConfigDescribe>> describeTopicConfig(TopicConfigDescribeRequest request) {
-        return topicClientPort.describeTopicConfig(request);
+    @Override
+    public List<KafkaTopicConfigDescribeResponse> configDescribe(KafkaTopicRequest request) {
+        KafkaTopic kafkaTopic = KafkaTopic.of(
+                KafkaBootStrapServer.of(request.bootstrapServer().host(), request.bootstrapServer().port()),
+                request.topicName(),
+                request.partitions(),
+                request.replicationFactor(),
+                request.config()
+        );
+
+        return kafkaTopicCommandPort.configDescribe(kafkaTopic)
+                .stream()
+                .map(KafkaTopicConfigDescribeResponse::from)
+                .toList();
     }
 
-    public ApiResponse<String> updateTopicConfig(String topicName, TopicEditRequest request) {
-        return topicClientPort.updateTopicConfig(topicName, request);
+    @Override
+    public KafkaTopicResponse update(KafkaTopicRequest request) {
+        KafkaTopic kafkaTopic = KafkaTopic.of(
+                KafkaBootStrapServer.of(request.bootstrapServer().host(), request.bootstrapServer().port()),
+                request.topicName(),
+                request.partitions(),
+                request.replicationFactor(),
+                request.config()
+        );
+
+
+        return new KafkaTopicResponse(kafkaTopicCommandPort.update(kafkaTopic).getTopicName());
     }
 
-    public ApiResponse<String> deleteTopic(TopicDeleteRequest request) {
-        return topicClientPort.deleteTopic(request);
+    @Override
+    public KafkaTopicResponse delete(KafkaTopicRequest request) {
+        KafkaTopic kafkaTopic = KafkaTopic.of(
+                KafkaBootStrapServer.of(request.bootstrapServer().host(), request.bootstrapServer().port()),
+                request.topicName(),
+                request.partitions(),
+                request.replicationFactor(),
+                request.config()
+        );
+
+        return new KafkaTopicResponse(kafkaTopicCommandPort.delete(kafkaTopic).getTopicName());
     }
 }

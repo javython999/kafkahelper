@@ -1,10 +1,11 @@
 package com.errday.kafkahelper.adapter.in.web;
 
 import com.errday.kafkahelper.adapter.in.web.dto.TopicConfigDescribeRequest;
-import com.errday.kafkahelper.application.dto.BootstrapServer;
+import com.errday.kafkahelper.application.dto.KafkaBootstrapServerRequest;
 import com.errday.kafkahelper.application.dto.KafkaBrokerResponse;
 import com.errday.kafkahelper.application.port.in.KafkaBrokerListUseCase;
 import com.errday.kafkahelper.application.port.in.KafkaTopicPort;
+import com.errday.kafkahelper.application.port.in.KafkaTopicRegisterUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,30 +44,30 @@ public class KafkaTopicController {
     }
 
     @GetMapping("/kafka/topics")
-    public String topics(Model model, BootstrapServer bootstrapServer) {
+    public String topics(Model model, KafkaBootstrapServerRequest kafkaBootstrapServerRequest) {
 
         List<KafkaBrokerResponse> kafkaBrokers = kafkaBrokerListUseCase.findAll();
 
         model.addAttribute("kafkaBrokers", kafkaBrokers);
-        model.addAttribute("bootstrapServer", bootstrapServer);
+        model.addAttribute("bootstrapServer", kafkaBootstrapServerRequest);
 
         return "kafka/topics/list";
     }
 
     @PostMapping("/kafka/topics/write")
-    public String topicWrite(Model model, BootstrapServer bootstrapServer) {
-        model.addAttribute("bootstrapServer", bootstrapServer);
+    public String topicWrite(Model model, KafkaBootstrapServerRequest kafkaBootstrapServerRequest) {
+        model.addAttribute("bootstrapServer", kafkaBootstrapServerRequest);
         return "kafka/topics/write";
     }
 
     @GetMapping("/kafka/topics/{topicName}/edit")
-    public String topicEdit(@PathVariable String topicName, Model model, BootstrapServer bootstrapServer) {
-        model.addAttribute("bootstrapServer", bootstrapServer);
+    public String topicEdit(@PathVariable String topicName, Model model, KafkaBootstrapServerRequest kafkaBootstrapServerRequest) {
+        model.addAttribute("bootstrapServer", kafkaBootstrapServerRequest);
         model.addAttribute("topicName", topicName);
         model.addAttribute("topicConfig", kafkaTopicService.describeTopicConfig(
                 new TopicConfigDescribeRequest(
-                        bootstrapServer.host(),
-                        bootstrapServer.port(),
+                        kafkaBootstrapServerRequest.host(),
+                        kafkaBootstrapServerRequest.port(),
                         topicName)).data());
 
         model.addAttribute("configOptions", configOptions);
@@ -75,8 +76,8 @@ public class KafkaTopicController {
     }
 
     @GetMapping("/kafka/topics/{topicName}/record")
-    public String topicRecord(@PathVariable String topicName, Model model, BootstrapServer bootstrapServer) {
-        model.addAttribute("bootstrapServer", bootstrapServer);
+    public String topicRecord(@PathVariable String topicName, Model model, KafkaBootstrapServerRequest kafkaBootstrapServerRequest) {
+        model.addAttribute("bootstrapServer", kafkaBootstrapServerRequest);
         model.addAttribute("topicName", topicName);
 
         return "kafka/topics/record";

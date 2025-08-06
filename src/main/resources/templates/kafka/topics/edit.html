@@ -38,7 +38,7 @@
                                            aria-describedby="brokerHostHelp"
                                            type="text"
                                            required
-                                           th:value="${bootstrapServer.host()}" readonly>
+                                           th:value="${kafkaBootstrapServerRequest.host()}" readonly>
                                     <span class="input-group-text">:</span>
                                     <input class="form-control"
                                            id="port"
@@ -46,7 +46,7 @@
                                            aria-describedby="brokerPortHelp"
                                            type="text"
                                            required
-                                           th:value="${bootstrapServer.port()}" readonly>
+                                           th:value="${kafkaBootstrapServerRequest.port()}" readonly>
                                 </div>
                             </div>
                         </div>

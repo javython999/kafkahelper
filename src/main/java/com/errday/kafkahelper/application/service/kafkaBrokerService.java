@@ -8,7 +8,7 @@ import com.errday.kafkahelper.application.port.in.KafkaBrokerRegisterUseCase;
 import com.errday.kafkahelper.application.port.in.KafkaBrokerUpdateUseCase;
 import com.errday.kafkahelper.application.port.out.KafkaBrokerPersistencePort;
 import com.errday.kafkahelper.application.port.out.KafkaBrokerQueryPort;
-import com.errday.kafkahelper.domain.model.KafkaBroker;
+import com.errday.kafkahelper.domain.KafkaBroker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

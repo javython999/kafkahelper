@@ -1,14 +1,14 @@
 package com.errday.kafkahelper.adapter.in.web.dto;
 
-import com.errday.kafkahelper.application.dto.BootstrapServer;
+import com.errday.kafkahelper.application.dto.KafkaBootstrapServerRequest;
 
 public record RegisterRecordRequest(
-        BootstrapServer bootstrapServer,
+        KafkaBootstrapServerRequest kafkaBootstrapServerRequest,
         String topicName,
         String key,
         String message) {
 
     public String bootstrapServerAddress() {
-        return bootstrapServer.address();
+        return kafkaBootstrapServerRequest.address();
     }
 }

@@ -1,8 +1,8 @@
 package com.errday.kafkahelper.adapter.in.web;
 
 import com.errday.kafkahelper.adapter.in.web.dto.*;
-import com.errday.kafkahelper.application.dto.BootstrapServer;
-import com.errday.kafkahelper.application.port.in.KafkaTopicPort;
+import com.errday.kafkahelper.application.dto.*;
+import com.errday.kafkahelper.application.port.in.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -17,35 +17,77 @@ import java.util.List;
 public class KafkaTopicApi {
 
     private final KafkaTopicPort kafkaTopicService;
+    private final KafkaTopicRegisterUseCase  kafkaTopicRegisterUseCase;
+    private final KafkaTopicDescribeUseCase kafkaTopicDescribeUseCase;
+    private final KafkaTopicListUseCase kafkaTopicListUseCase;
+    private final KafkaTopicConfigDescribeUseCase kafkaTopicConfigDescribeUseCase;
+    private final KafkaTopicUpdateUseCase kafkaTopicUpdateUseCase;
+    private final KafkaTopicDeleteUseCase kafkaTopicDeleteUseCase;
 
     @PostMapping("/topics")
-    public ResponseEntity<ApiResponse<String>> createTopic(@RequestBody TopicCreateRequest request) {
-        return ResponseEntity.ok(kafkaTopicService.createTopic(request));
+    public ApiResponse<KafkaTopicResponse> registerTopic(@RequestBody KafkaTopicRequest request) {
+
+        KafkaTopicResponse saved = kafkaTopicRegisterUseCase.register(request);
+        if (saved == null) {
+            return ApiResponse.error("error", null);
+        }
+
+        return ApiResponse.success("success", saved);
     }
 
     @PostMapping("/topics/{topicName}")
-    public ApiResponse<TopicDescribe> describeTopic(@RequestBody TopicDescribeRequest request) {
-        return kafkaTopicService.describeTopic(request);
+    public ApiResponse<KafkaTopicDescribeResponse> describeTopic(@RequestBody KafkaTopicRequest request) {
+
+        KafkaTopicDescribeResponse describe = kafkaTopicDescribeUseCase.describe(request);
+        if (describe == null) {
+            return ApiResponse.error("error", null);
+        }
+
+        return ApiResponse.success("success", describe);
     }
 
     @GetMapping("/topics")
-    public ResponseEntity<ApiResponse<List<String>>> topicList(BootstrapServer bootstrapServer) {
-        return ResponseEntity.ok(kafkaTopicService.topicList(bootstrapServer));
+    public ApiResponse<List<KafkaTopicResponse>> topicList(KafkaBootstrapServerRequest kafkaBootstrapServerRequest) {
+
+        List<KafkaTopicResponse> findAll = kafkaTopicListUseCase.findAll(kafkaBootstrapServerRequest);
+        if (findAll == null) {
+            return ApiResponse.error("error", null);
+        }
+
+        return ApiResponse.success("success", findAll);
     }
 
-    @GetMapping("/topics/{topicName}/configs")
-    public ResponseEntity<ApiResponse<List<TopicConfigDescribe>>> topiConfigs(TopicConfigDescribeRequest request) {
-        return ResponseEntity.ok(kafkaTopicService.describeTopicConfig(request));
+    @PostMapping("/topics/{topicName}/configs")
+    public ApiResponse<List<KafkaTopicConfigDescribeResponse>> topiConfigs(@RequestBody KafkaTopicRequest request) {
+
+        List<KafkaTopicConfigDescribeResponse> configDescribes = kafkaTopicConfigDescribeUseCase.configDescribe(request);
+        if (configDescribes == null) {
+            return ApiResponse.error("error", null);
+        }
+
+        return ApiResponse.success("success", configDescribes);
     }
 
     @PatchMapping("/topics/{topicName}")
-    public ResponseEntity<ApiResponse<String>> updateTopic(@PathVariable String topicName, @RequestBody TopicEditRequest config) {
-        return ResponseEntity.ok(kafkaTopicService.updateTopicConfig(topicName, config));
+    public ApiResponse<KafkaTopicResponse> updateTopic(@RequestBody KafkaTopicRequest request) {
+
+        KafkaTopicResponse updated = kafkaTopicUpdateUseCase.update(request);
+        if (updated == null) {
+            return ApiResponse.error("error", null);
+        }
+
+        return ApiResponse.success("success", updated);
     }
 
     @DeleteMapping("/topics/{topicName}")
-    public ResponseEntity<ApiResponse<String>> deleteTopic(@RequestBody TopicDeleteRequest request) {
-        return ResponseEntity.ok(kafkaTopicService.deleteTopic(request));
+    public ApiResponse<KafkaTopicResponse> deleteTopic(@RequestBody KafkaTopicRequest request) {
+
+        KafkaTopicResponse deleted = kafkaTopicDeleteUseCase.delete(request);
+        if (deleted == null) {
+            return ApiResponse.error("error", null);
+        }
+
+        return ApiResponse.success("success", deleted);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.errday.kafkahelper.domain.model;
+package com.errday.kafkahelper.domain;
 
 import lombok.Getter;
 
