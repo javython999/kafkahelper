@@ -16,9 +16,9 @@ function loadBrokers() {
             },
         })
             .then(response => response.json())
-            .then(data => {
-                if (data != null) {
-                    renderBrokers(data);
+            .then(response => {
+                if (response != null) {
+                    renderBrokers(response);
                 }
             })
             .catch(error => {

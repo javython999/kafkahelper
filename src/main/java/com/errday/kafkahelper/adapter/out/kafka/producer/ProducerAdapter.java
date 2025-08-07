@@ -1,40 +1,31 @@
 package com.errday.kafkahelper.adapter.out.kafka.producer;
 
-import com.errday.kafkahelper.application.port.out.ProducerClientPort;
-import com.errday.kafkahelper.adapter.in.web.dto.RegisterRecordRequest;
+import com.errday.kafkahelper.adapter.out.kafka.KafkaTemplateManager;
+import com.errday.kafkahelper.application.port.out.KafkaProducerCommandPort;
+import com.errday.kafkahelper.domain.KafkaRecord;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.common.serialization.StringSerializer;
-import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class ProducerAdapter implements ProducerClientPort {
+public class ProducerAdapter implements KafkaProducerCommandPort {
+
+    private final KafkaTemplateManager kafkaTemplateManager;
 
     @Override
-    public void registerRecord(RegisterRecordRequest request) {
-        Map<String, Object> props = new HashMap<>();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, request.bootstrapServerAddress());
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+    public boolean save(KafkaRecord kafkaRecord) {
 
-        ProducerFactory<String, String> producerFactory = new DefaultKafkaProducerFactory<>(props);
-        KafkaTemplate<String, String> kafkaTemplate = new KafkaTemplate<>(producerFactory);
+        KafkaTemplate<String, String> kafkaTemplate = kafkaTemplateManager.getKafkaTemplate(kafkaRecord.bootstrapServerAddress());
 
         try {
-            kafkaTemplate.send(request.topicName(), request.key(), request.message());
+            kafkaTemplate.send(kafkaRecord.getTopicName(), kafkaRecord.getKey(), kafkaRecord.getMessage());
+            return true;
         } catch (Exception e) {
             log.error("registerRecord fail: {}", e.getMessage(), e);
+            return false;
         }
     }
-
-
 }

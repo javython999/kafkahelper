@@ -2,8 +2,8 @@ package com.errday.kafkahelper.application.dto;
 
 public record KafkaBrokerRegisterRequest(
         String alias,
-        KafkaBootstrapServerRequest kafkaBootstrapServerRequest) {
+        KafkaBootstrapServerRequest bootstrapServer) {
 
-    public String host() { return kafkaBootstrapServerRequest.host(); }
-    public int port() { return kafkaBootstrapServerRequest.port(); }
+    public String host() { return bootstrapServer.host(); }
+    public int port() { return bootstrapServer.port(); }
 }

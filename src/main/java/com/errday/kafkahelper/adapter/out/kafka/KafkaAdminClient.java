@@ -15,4 +15,5 @@ public class KafkaAdminClient {
         config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer.address());
         return AdminClient.create(config);
     }
+
 }

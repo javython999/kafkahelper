@@ -5,7 +5,7 @@ import com.errday.kafkahelper.domain.KafkaBroker;
 public record KafkaBrokerResponse(
         Long id,
         String alias,
-        KafkaBootstrapServerRequest kafkaBootstrapServerRequest) {
+        KafkaBootstrapServerRequest bootstrapServer) {
 
     public static KafkaBrokerResponse of(Long id, String alias, String host, int port) {
         return new KafkaBrokerResponse(id, alias, new KafkaBootstrapServerRequest(host, port));
@@ -15,7 +15,7 @@ public record KafkaBrokerResponse(
         return of(kafkaBroker.getId(), kafkaBroker.getAlias(), kafkaBroker.getHost(), kafkaBroker.getPort());
     }
 
-    public String host() { return kafkaBootstrapServerRequest.host(); }
+    public String host() { return bootstrapServer.host(); }
 
-    public int port() { return kafkaBootstrapServerRequest.port(); }
+    public int port() { return bootstrapServer.port(); }
 }
