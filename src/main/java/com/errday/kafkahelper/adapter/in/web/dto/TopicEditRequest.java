@@ -7,7 +7,4 @@ public record TopicEditRequest(
         TopicEditConfig config
         ) {
 
-    public String bootStrapServerAddress() {
-        return kafkaBootstrapServerRequest.address();
-    }
 }

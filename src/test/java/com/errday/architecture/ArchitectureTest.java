@@ -14,7 +14,7 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 )
 public class ArchitectureTest {
 
-    /**
+     /**
      * adapter 계층은 application 내부 구현(service 등)에 직접 의존하면 안 된다.
      * adapter 반드시 application.port.in / port.out 의 interface만 의존해야 한다.
      */
@@ -30,7 +30,6 @@ public class ArchitectureTest {
     /**
      * application 계층은 adapter에 의존해서는 안 된다.
      * 이는 헥사고날 아키텍처에서의 의존성 역전 원칙에 위배된다.
-     * adapter는 application의 port를 구현하여 연결되어야 한다.
      */
     @ArchTest
     void application(JavaClasses classes) {

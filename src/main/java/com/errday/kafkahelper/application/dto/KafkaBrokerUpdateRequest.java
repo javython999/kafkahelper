@@ -1,4 +1,4 @@
-package com.errday.kafkahelper.adapter.in.web.dto;
+package com.errday.kafkahelper.application.dto;
 
 public record KafkaBrokerUpdateRequest(
         Long id,

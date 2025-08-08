@@ -18,7 +18,7 @@ public class SseController {
 
     @GetMapping(value = "/subscribe/{topicName}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter subscribe(@PathVariable String topicName, @RequestParam String host, @RequestParam int port) {
-        consumerManager.startListening(new KafkaSseRequest(topicName, host, port)); // 동적 리스너 생성
+        consumerManager.startListening(new KafkaSseRequest(topicName, host, port));
         return sseEmitters.createEmitter(topicName);
     }
 }

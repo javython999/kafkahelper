@@ -1,30 +1,14 @@
 package com.errday.kafkahelper.application.dto;
 
-import com.errday.kafkahelper.adapter.in.web.dto.TopicPartitionDescribe;
-import com.errday.kafkahelper.domain.KafkaTopicDescribe;
-
 import java.util.List;
 
 public record KafkaTopicDescribeResponse(
         String topicName,
         boolean internal,
-        List<TopicPartitionDescribe> partitions) {
+        List<KafkaTopicPartitionDescribeResponse> partitions) {
 
-    public static KafkaTopicDescribeResponse from(KafkaTopicDescribe  kafkaTopicDescribe) {
-        return new KafkaTopicDescribeResponse(
-                kafkaTopicDescribe.getTopicName(),
-                kafkaTopicDescribe.isInternal(),
-                kafkaTopicDescribe.getPartitions()
-                        .stream()
-                        .map(describe ->
-                                new TopicPartitionDescribe(
-                                        describe.getPartition(),
-                                        describe.getLeader(),
-                                        describe.getIsr(),
-                                        describe.getReplicas()
-                                ))
-                        .toList()
-        );
+    public static KafkaTopicDescribeResponse of(String topicName, boolean internal, List<KafkaTopicPartitionDescribeResponse> partitions) {
+        return new KafkaTopicDescribeResponse(topicName, internal, partitions);
     }
 
     public boolean isInternal() {

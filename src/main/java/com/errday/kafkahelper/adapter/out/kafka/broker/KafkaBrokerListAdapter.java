@@ -1,16 +1,17 @@
 package com.errday.kafkahelper.adapter.out.kafka.broker;
 
-import com.errday.kafkahelper.application.port.out.KafkaBrokerQueryPort;
+import com.errday.kafkahelper.application.port.out.KafkaBrokerListPort;
 import com.errday.kafkahelper.domain.KafkaBroker;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
-public class KafkaBrokerQueryJpaAdapter implements KafkaBrokerQueryPort {
+public class KafkaBrokerListAdapter implements KafkaBrokerListPort {
 
     private final KafkaBrokerRepository kafkaBrokerRepository;
 
@@ -20,12 +21,5 @@ public class KafkaBrokerQueryJpaAdapter implements KafkaBrokerQueryPort {
                 .stream()
                 .map(KafkaBrokerEntity::toDomain)
                 .toList();
-    }
-
-    @Override
-    public KafkaBroker findById(long id) {
-        return kafkaBrokerRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Kafka Broker with id " + id + " not found!"))
-                .toDomain();
     }
 }

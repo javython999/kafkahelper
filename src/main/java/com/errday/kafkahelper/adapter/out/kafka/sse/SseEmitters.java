@@ -2,6 +2,7 @@ package com.errday.kafkahelper.adapter.out.kafka.sse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -16,6 +17,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class SseEmitters {
@@ -38,7 +40,10 @@ public class SseEmitters {
 
         emitter.onCompletion(() -> removeEmitter(topic, emitter));
         emitter.onTimeout(() -> removeEmitter(topic, emitter));
-        emitter.onError(e -> removeEmitter(topic, emitter));
+        emitter.onError(e -> {
+            log.debug("SSE 연결 에러: {}", e.getMessage());
+            removeEmitter(topic, emitter);
+        });
 
         // 새 연결 → 종료 타이머 취소
         cleanupManager.cancelCleanup(topic);

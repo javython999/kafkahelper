@@ -1,6 +1,6 @@
-package com.errday.kafkahelper.adapter.in.web.dto;
+package com.errday.kafkahelper.application.dto;
 
-public record TopicPartitionDescribe(
+public record KafkaTopicPartitionDescribeResponse(
         Integer partition,
         String leader,
         String isr,

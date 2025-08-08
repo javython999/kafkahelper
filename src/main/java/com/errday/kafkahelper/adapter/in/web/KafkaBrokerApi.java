@@ -1,12 +1,9 @@
 package com.errday.kafkahelper.adapter.in.web;
 
-import com.errday.kafkahelper.adapter.in.web.dto.KafkaBrokerUpdateRequest;
+import com.errday.kafkahelper.application.dto.KafkaBrokerUpdateRequest;
 import com.errday.kafkahelper.application.dto.KafkaBrokerRegisterRequest;
 import com.errday.kafkahelper.application.dto.KafkaBrokerResponse;
-import com.errday.kafkahelper.application.port.in.KafkaBrokerDeleteUseCase;
-import com.errday.kafkahelper.application.port.in.KafkaBrokerRegisterUseCase;
-import com.errday.kafkahelper.application.port.in.KafkaBrokerListUseCase;
-import com.errday.kafkahelper.application.port.in.KafkaBrokerUpdateUseCase;
+import com.errday.kafkahelper.application.port.in.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +20,7 @@ public class KafkaBrokerApi {
 
     private final KafkaBrokerRegisterUseCase kafkaBrokerRegisterUseCase;
     private final KafkaBrokerListUseCase kafkaBrokerListUseCase;
+    private final KafkaBrokerFindUseCase kafkaBrokerFindUseCase;
     private final KafkaBrokerUpdateUseCase kafkaBrokerUpdateUseCase;
     private final KafkaBrokerDeleteUseCase kafkaBrokerDeleteUseCase;
 
@@ -38,12 +36,12 @@ public class KafkaBrokerApi {
 
     @GetMapping("/brokers/{brokerId}")
     public ResponseEntity<KafkaBrokerResponse> brokerDetail(@PathVariable Long brokerId) {
-        return ResponseEntity.ok(kafkaBrokerListUseCase.findById(brokerId));
+        return ResponseEntity.ok(kafkaBrokerFindUseCase.findById(brokerId));
     }
 
     @PutMapping("/brokers/{brokerId}")
     public ResponseEntity<KafkaBrokerResponse> updateBroker(@PathVariable Long brokerId, @RequestBody KafkaBrokerUpdateRequest request) {
-        KafkaBrokerResponse findById = kafkaBrokerListUseCase.findById(brokerId);
+        KafkaBrokerResponse findById = kafkaBrokerFindUseCase.findById(brokerId);
 
         if (!findById.alias().equals(request.oldAlias())) {
             return ResponseEntity.badRequest().build();

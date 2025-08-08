@@ -5,6 +5,7 @@ import com.errday.kafkahelper.application.port.in.*;
 import com.errday.kafkahelper.application.port.out.KafkaTopicCommandPort;
 import com.errday.kafkahelper.domain.KafkaBootStrapServer;
 import com.errday.kafkahelper.domain.KafkaTopic;
+import com.errday.kafkahelper.domain.KafkaTopicDescribe;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +39,22 @@ public class KafkaTopicService implements KafkaTopicRegisterUseCase, KafkaTopicD
                 request.replicationFactor(),
                 request.config()
         );
-        return KafkaTopicDescribeResponse.from(kafkaTopicCommandPort.describe(kafkaTopic));
+
+        KafkaTopicDescribe describe = kafkaTopicCommandPort.describe(kafkaTopic);
+
+        List<KafkaTopicPartitionDescribeResponse> partitions = describe.getPartitions()
+                .stream()
+                .map(topicPartitionDescribe ->
+                        new KafkaTopicPartitionDescribeResponse(
+                                topicPartitionDescribe.getPartition(),
+                                topicPartitionDescribe.getLeader(),
+                                topicPartitionDescribe.getIsr(),
+                                topicPartitionDescribe.getReplicas()
+                        ))
+                .toList();
+
+
+        return KafkaTopicDescribeResponse.of(describe.getTopicName(), describe.isInternal(), partitions);
     }
 
     @Override
