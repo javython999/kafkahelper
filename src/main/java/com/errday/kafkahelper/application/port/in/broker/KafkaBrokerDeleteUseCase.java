@@ -1,4 +1,4 @@
-package com.errday.kafkahelper.application.port.in;
+package com.errday.kafkahelper.application.port.in.broker;
 
 public interface KafkaBrokerDeleteUseCase {
 

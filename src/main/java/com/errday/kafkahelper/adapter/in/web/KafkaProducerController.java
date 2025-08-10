@@ -1,6 +1,6 @@
 package com.errday.kafkahelper.adapter.in.web;
 
-import com.errday.kafkahelper.application.port.in.KafkaBrokerListUseCase;
+import com.errday.kafkahelper.application.port.in.broker.KafkaBrokerListUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

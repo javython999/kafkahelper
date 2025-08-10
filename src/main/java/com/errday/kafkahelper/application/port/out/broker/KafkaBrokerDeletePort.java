@@ -1,4 +1,4 @@
-package com.errday.kafkahelper.application.port.out;
+package com.errday.kafkahelper.application.port.out.broker;
 
 public interface KafkaBrokerDeletePort {
 

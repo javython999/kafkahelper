@@ -3,7 +3,7 @@ package com.errday.kafkahelper.adapter.in.web;
 import com.errday.kafkahelper.application.dto.KafkaBootstrapServerRequest;
 import com.errday.kafkahelper.application.dto.KafkaBrokerResponse;
 import com.errday.kafkahelper.application.dto.KafkaTopicRequest;
-import com.errday.kafkahelper.application.port.in.KafkaBrokerListUseCase;
+import com.errday.kafkahelper.application.port.in.broker.KafkaBrokerListUseCase;
 import com.errday.kafkahelper.application.port.in.KafkaTopicConfigDescribeUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
