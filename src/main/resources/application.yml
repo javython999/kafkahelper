@@ -30,6 +30,3 @@ decorator:
   datasource:
     p6spy:
       enable-logging: true
-
-kafka:
-  bootstrap-server: 158.247.215.123:9092
