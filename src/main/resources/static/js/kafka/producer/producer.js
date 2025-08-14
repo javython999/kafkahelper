@@ -132,7 +132,6 @@ function send() {
     })
         .then(response => response.json())
         .then(response => {
-            console.log(response);
             closeModal();
         })
         .catch(error => {

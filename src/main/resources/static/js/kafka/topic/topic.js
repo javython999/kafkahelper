@@ -38,7 +38,6 @@ function loadTopics() {
             .then(response => response.json())
             .then(response => {
                 clearTopics();
-                console.log(response);
                 if (response.isSuccess) {
                     renderTopics(response.data);
                 }
