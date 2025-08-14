@@ -1,6 +1,6 @@
 # Kafka Helper
 
-## <a href="http://158.247.215.123:8080/kafka/brokers" target="_blank">Kafka-Helper Demo</a>
+## [Kafka-Helper Demo](http://158.247.215.123:8080/kafka/brokers)
 
 ## 목적
 
