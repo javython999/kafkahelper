@@ -4,7 +4,7 @@ import com.errday.kafkahelper.application.dto.KafkaBootstrapServerRequest;
 import com.errday.kafkahelper.application.dto.KafkaBrokerResponse;
 import com.errday.kafkahelper.application.dto.KafkaTopicRequest;
 import com.errday.kafkahelper.application.port.in.broker.KafkaBrokerListUseCase;
-import com.errday.kafkahelper.application.port.in.KafkaTopicConfigDescribeUseCase;
+import com.errday.kafkahelper.application.port.in.topic.KafkaTopicConfigDescribeUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

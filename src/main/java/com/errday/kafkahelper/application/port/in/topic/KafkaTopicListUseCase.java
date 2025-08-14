@@ -1,4 +1,4 @@
-package com.errday.kafkahelper.application.port.in;
+package com.errday.kafkahelper.application.port.in.topic;
 
 import com.errday.kafkahelper.application.dto.KafkaBootstrapServerRequest;
 import com.errday.kafkahelper.application.dto.KafkaTopicResponse;

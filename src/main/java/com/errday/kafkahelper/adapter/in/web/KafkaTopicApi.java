@@ -2,7 +2,7 @@ package com.errday.kafkahelper.adapter.in.web;
 
 import com.errday.kafkahelper.adapter.in.web.dto.ApiResponse;
 import com.errday.kafkahelper.application.dto.*;
-import com.errday.kafkahelper.application.port.in.*;
+import com.errday.kafkahelper.application.port.in.topic.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/api/kafka")
 public class KafkaTopicApi {
 
-    private final KafkaTopicRegisterUseCase  kafkaTopicRegisterUseCase;
+    private final KafkaTopicRegisterUseCase kafkaTopicRegisterUseCase;
     private final KafkaTopicDescribeUseCase kafkaTopicDescribeUseCase;
     private final KafkaTopicListUseCase kafkaTopicListUseCase;
     private final KafkaTopicConfigDescribeUseCase kafkaTopicConfigDescribeUseCase;
