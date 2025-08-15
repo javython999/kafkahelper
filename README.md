@@ -22,7 +22,7 @@ Spring-Kafka 기반의 **Kafka 브로커 관리 웹 애플리케이션**입니�
 
 ## 🛠 기술 스택
 - **Backend**
-    - Java 21+
+    - Java 21
     - Spring Boot 3.x
     - Spring Kafka
 - **Frontend**
