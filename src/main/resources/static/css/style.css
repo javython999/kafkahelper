@@ -15208,6 +15208,14 @@ body:not(.minimenu) .pc-sidebar .pc-submenu .pc-submenu .pc-submenu > .pc-item:b
 @media (max-width: 1024px) {
     .pc-mob-header {
         display: flex;
+        position: relative;
+    }
+
+    .pc-mob-header .pc-head-link#mobile-collapse {
+        position: absolute;
+        top: 50%; /* 부모 높이의 중앙 */
+        left: 10px;
+        transform: translateY(-50%); /* 세로 중앙 정렬 */
     }
 
     .pc-header {
