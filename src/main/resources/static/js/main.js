@@ -47,11 +47,12 @@ function initSidebar() {
         sidebar.style.left = "0px";
     });
 
-    // 외부 클릭 → 닫기
+    // 외부 클릭 → 닫기 (모바일 전용)
     document.addEventListener("click", function (event) {
-        // 사이드바가 열려 있을 때만 체크
+        const isMobile = window.innerWidth <= 1024; // 모바일 기준
+        if (!isMobile) return; // 데스크탑이면 무시
+
         if (sidebar.style.left === "0px") {
-            // 사이드바 내부도 아니고, 햄버거 버튼도 아닌 경우
             if (!sidebar.contains(event.target) && !mobileCollapse.contains(event.target)) {
                 sidebar.style.left = "-280px";
             }
