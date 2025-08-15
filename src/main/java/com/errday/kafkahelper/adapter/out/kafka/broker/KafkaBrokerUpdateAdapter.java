@@ -1,5 +1,6 @@
 package com.errday.kafkahelper.adapter.out.kafka.broker;
 
+import com.errday.kafkahelper.application.error.KafkaBrokerNotFoundException;
 import com.errday.kafkahelper.application.port.out.broker.KafkaBrokerUpdatePort;
 import com.errday.kafkahelper.domain.KafkaBroker;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,15 @@ public class KafkaBrokerUpdateAdapter implements KafkaBrokerUpdatePort {
 
     @Override
     public KafkaBroker update(KafkaBroker kafkaBroker) {
-        kafkaBrokerRepository.save(KafkaBrokerEntity.from(kafkaBroker));
+
+        KafkaBrokerEntity kafkaBrokerEntity = kafkaBrokerRepository.findById(kafkaBroker.getId())
+                .orElseThrow(() -> new KafkaBrokerNotFoundException(kafkaBroker.getId()));
+
+        kafkaBrokerEntity.updateAlias(kafkaBroker.getAlias());
+        kafkaBrokerEntity.updateHost(kafkaBroker.getHost());
+        kafkaBrokerEntity.updatePort(kafkaBroker.getPort());
+
+        kafkaBrokerRepository.save(kafkaBrokerEntity);
         return kafkaBroker;
     }
 }
