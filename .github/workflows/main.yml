@@ -42,4 +42,5 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             /home/kafka/helper/kill.sh
+            sleep 5
             /home/kafka/helper/start.sh
