@@ -1,4 +1,4 @@
-package com.errday.kafkahelper.domain.model;
+package com.errday.kafkahelper.domain;
 
 import com.errday.kafkahelper.adapter.in.web.dto.ApiResponse;
 import org.junit.jupiter.api.Test;

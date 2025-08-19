@@ -1,4 +1,4 @@
-package com.errday.kafkahelper.application.port.in;
+package com.errday.kafkahelper.application.port.in.producer;
 
 import com.errday.kafkahelper.application.dto.KafkaRecordRegisterRequest;
 

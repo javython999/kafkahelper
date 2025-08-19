@@ -1,7 +1,7 @@
 package com.errday.kafkahelper.adapter.out.kafka.producer;
 
 import com.errday.kafkahelper.adapter.out.kafka.KafkaTemplateManager;
-import com.errday.kafkahelper.application.port.out.KafkaProducerCommandPort;
+import com.errday.kafkahelper.application.port.out.producer.KafkaRecordRegisterPort;
 import com.errday.kafkahelper.domain.KafkaRecord;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,13 +11,12 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class ProducerAdapter implements KafkaProducerCommandPort {
+public class KafkaRecordRegisterAdapter implements KafkaRecordRegisterPort {
 
     private final KafkaTemplateManager kafkaTemplateManager;
 
     @Override
     public boolean save(KafkaRecord kafkaRecord) {
-
         KafkaTemplate<String, String> kafkaTemplate = kafkaTemplateManager.getKafkaTemplate(kafkaRecord.bootstrapServerAddress());
 
         try {

@@ -1,8 +1,8 @@
-package com.errday.kafkahelper.application.service;
+package com.errday.kafkahelper.application.service.producer;
 
 import com.errday.kafkahelper.application.dto.KafkaRecordRegisterRequest;
-import com.errday.kafkahelper.application.port.in.KafkaRecordRegisterUseCase;
-import com.errday.kafkahelper.application.port.out.KafkaProducerCommandPort;
+import com.errday.kafkahelper.application.port.in.producer.KafkaRecordRegisterUseCase;
+import com.errday.kafkahelper.application.port.out.producer.KafkaRecordRegisterPort;
 import com.errday.kafkahelper.domain.KafkaBootStrapServer;
 import com.errday.kafkahelper.domain.KafkaRecord;
 import lombok.RequiredArgsConstructor;
@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class KafkaProducerService implements KafkaRecordRegisterUseCase {
+public class KafkaRecordRegisterService implements KafkaRecordRegisterUseCase {
 
-    private final KafkaProducerCommandPort kafkaProducerCommandPort;
+    private final KafkaRecordRegisterPort  kafkaRecordRegisterPort;
 
 
     @Override
@@ -24,6 +24,6 @@ public class KafkaProducerService implements KafkaRecordRegisterUseCase {
                 request.message()
         );
 
-        return kafkaProducerCommandPort.save(kafkaRecord);
+        return kafkaRecordRegisterPort.save(kafkaRecord);
     }
 }

@@ -27,8 +27,20 @@ public class KafkaBroker {
     }
 
     public void update(String alias, String host, Integer port) {
+        updateAlias(alias);
+        updateHost(host);
+        updatePort(port);
+    }
+
+    public void updateAlias(String alias) {
         this.alias = Objects.requireNonNull(alias);
+    }
+
+    public void updateHost(String host) {
         this.host = Objects.requireNonNull(host);
+    }
+
+    public void updatePort(Integer port) {
         this.port = Objects.requireNonNull(port);
     }
 

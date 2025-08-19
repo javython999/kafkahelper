@@ -2,7 +2,7 @@ package com.errday.kafkahelper.adapter.in.web;
 
 import com.errday.kafkahelper.adapter.in.web.dto.ApiResponse;
 import com.errday.kafkahelper.application.dto.KafkaRecordRegisterRequest;
-import com.errday.kafkahelper.application.port.in.KafkaRecordRegisterUseCase;
+import com.errday.kafkahelper.application.port.in.producer.KafkaRecordRegisterUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
