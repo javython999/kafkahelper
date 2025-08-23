@@ -21,10 +21,6 @@ public class KafkaTopicDescribe {
         return new KafkaTopicDescribe(topicName, internal, partitions);
     }
 
-    public boolean isInternal() {
-        return internal;
-    }
-
     public int partitionCount() {
         return partitions.size();
     }
