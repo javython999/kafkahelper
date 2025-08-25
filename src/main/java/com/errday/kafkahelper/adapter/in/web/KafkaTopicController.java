@@ -1,10 +1,10 @@
 package com.errday.kafkahelper.adapter.in.web;
 
-import com.errday.kafkahelper.application.dto.KafkaBootstrapServerRequest;
-import com.errday.kafkahelper.application.dto.KafkaBrokerResponse;
-import com.errday.kafkahelper.application.dto.KafkaTopicRequest;
-import com.errday.kafkahelper.application.port.in.broker.KafkaBrokerListUseCase;
-import com.errday.kafkahelper.application.port.in.topic.KafkaTopicConfigDescribeUseCase;
+import com.errday.kafkahelper.application.dto.kafka.KafkaBootstrapServerRequest;
+import com.errday.kafkahelper.application.dto.kafka.KafkaBrokerResponse;
+import com.errday.kafkahelper.application.dto.kafka.KafkaTopicRequest;
+import com.errday.kafkahelper.application.port.in.kafka.broker.KafkaBrokerListUseCase;
+import com.errday.kafkahelper.application.port.in.kafka.topic.KafkaTopicConfigDescribeUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

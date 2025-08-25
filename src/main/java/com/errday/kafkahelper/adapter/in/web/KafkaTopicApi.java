@@ -1,8 +1,8 @@
 package com.errday.kafkahelper.adapter.in.web;
 
 import com.errday.kafkahelper.adapter.in.web.dto.ApiResponse;
-import com.errday.kafkahelper.application.dto.*;
-import com.errday.kafkahelper.application.port.in.topic.*;
+import com.errday.kafkahelper.application.dto.kafka.*;
+import com.errday.kafkahelper.application.port.in.kafka.topic.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

@@ -1,7 +1,8 @@
 package com.errday.kafkahelper.application.service.broker;
 
 
-import com.errday.kafkahelper.application.port.out.broker.KafkaBrokerDeletePort;
+import com.errday.kafkahelper.application.port.out.kafka.broker.KafkaBrokerDeletePort;
+import com.errday.kafkahelper.application.service.kafka.broker.KafkaBrokerDeleteService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

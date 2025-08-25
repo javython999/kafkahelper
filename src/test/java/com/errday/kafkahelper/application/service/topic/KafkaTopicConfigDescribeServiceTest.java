@@ -1,12 +1,13 @@
 package com.errday.kafkahelper.application.service.topic;
 
-import com.errday.kafkahelper.application.dto.KafkaBootstrapServerRequest;
-import com.errday.kafkahelper.application.dto.KafkaTopicConfigDescribeResponse;
-import com.errday.kafkahelper.application.dto.KafkaTopicRequest;
-import com.errday.kafkahelper.application.port.out.topic.KafkaTopicConfigDescribePort;
-import com.errday.kafkahelper.domain.KafkaTopic;
-import com.errday.kafkahelper.domain.KafkaTopicConfig;
-import com.errday.kafkahelper.domain.KafkaTopicConfigDescribe;
+import com.errday.kafkahelper.application.dto.kafka.KafkaBootstrapServerRequest;
+import com.errday.kafkahelper.application.dto.kafka.KafkaTopicConfigDescribeResponse;
+import com.errday.kafkahelper.application.dto.kafka.KafkaTopicRequest;
+import com.errday.kafkahelper.application.port.out.kafka.topic.KafkaTopicConfigDescribePort;
+import com.errday.kafkahelper.application.service.kafka.topic.KafkaTopicConfigDescribeService;
+import com.errday.kafkahelper.domain.kafka.KafkaTopic;
+import com.errday.kafkahelper.domain.kafka.KafkaTopicConfig;
+import com.errday.kafkahelper.domain.kafka.KafkaTopicConfigDescribe;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

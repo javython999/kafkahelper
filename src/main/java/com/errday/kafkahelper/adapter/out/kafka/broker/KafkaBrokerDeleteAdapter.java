@@ -1,6 +1,7 @@
 package com.errday.kafkahelper.adapter.out.kafka.broker;
 
-import com.errday.kafkahelper.application.port.out.broker.KafkaBrokerDeletePort;
+import com.errday.kafkahelper.adapter.out.kafka.broker.entity.KafkaBrokerRepository;
+import com.errday.kafkahelper.application.port.out.kafka.broker.KafkaBrokerDeletePort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

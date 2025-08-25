@@ -1,10 +1,11 @@
 package com.errday.kafkahelper.application.service.broker;
 
-import com.errday.kafkahelper.application.dto.KafkaBrokerResponse;
-import com.errday.kafkahelper.application.dto.KafkaBrokerUpdateRequest;
-import com.errday.kafkahelper.application.port.out.broker.KafkaBrokerFindPort;
-import com.errday.kafkahelper.application.port.out.broker.KafkaBrokerUpdatePort;
-import com.errday.kafkahelper.domain.KafkaBroker;
+import com.errday.kafkahelper.application.dto.kafka.KafkaBrokerResponse;
+import com.errday.kafkahelper.application.dto.kafka.KafkaBrokerUpdateRequest;
+import com.errday.kafkahelper.application.port.out.kafka.broker.KafkaBrokerFindPort;
+import com.errday.kafkahelper.application.port.out.kafka.broker.KafkaBrokerUpdatePort;
+import com.errday.kafkahelper.application.service.kafka.broker.KafkaBrokerUpdateService;
+import com.errday.kafkahelper.domain.kafka.KafkaBroker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,7 +1,7 @@
 package com.errday.kafkahelper.adapter.in.web;
 
-import com.errday.kafkahelper.adapter.out.kafka.sse.DynamicKafkaConsumerManager;
-import com.errday.kafkahelper.adapter.out.kafka.sse.SseEmitters;
+import com.errday.kafkahelper.adapter.out.sse.DynamicKafkaConsumerManager;
+import com.errday.kafkahelper.adapter.out.sse.SseEmitters;
 import com.errday.kafkahelper.adapter.in.web.dto.KafkaSseRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;

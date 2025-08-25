@@ -1,10 +1,11 @@
 package com.errday.kafkahelper.application.service.topic;
 
-import com.errday.kafkahelper.application.dto.KafkaBootstrapServerRequest;
-import com.errday.kafkahelper.application.dto.KafkaTopicResponse;
-import com.errday.kafkahelper.application.port.out.topic.KafkaTopicListPort;
-import com.errday.kafkahelper.domain.KafkaBootStrapServer;
-import com.errday.kafkahelper.domain.KafkaTopic;
+import com.errday.kafkahelper.application.dto.kafka.KafkaBootstrapServerRequest;
+import com.errday.kafkahelper.application.dto.kafka.KafkaTopicResponse;
+import com.errday.kafkahelper.application.port.out.kafka.topic.KafkaTopicListPort;
+import com.errday.kafkahelper.application.service.kafka.topic.KafkaTopicListService;
+import com.errday.kafkahelper.domain.kafka.KafkaBootStrapServer;
+import com.errday.kafkahelper.domain.kafka.KafkaTopic;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

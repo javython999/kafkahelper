@@ -1,13 +1,14 @@
 package com.errday.kafkahelper.application.service.topic;
 
-import com.errday.kafkahelper.application.dto.KafkaBootstrapServerRequest;
-import com.errday.kafkahelper.application.dto.KafkaTopicDescribeResponse;
-import com.errday.kafkahelper.application.dto.KafkaTopicRequest;
-import com.errday.kafkahelper.application.port.out.topic.KafkaTopicDescribePort;
-import com.errday.kafkahelper.domain.KafkaTopic;
-import com.errday.kafkahelper.domain.KafkaTopicConfig;
-import com.errday.kafkahelper.domain.KafkaTopicDescribe;
-import com.errday.kafkahelper.domain.KafkaTopicPartitionDescribe;
+import com.errday.kafkahelper.application.dto.kafka.KafkaBootstrapServerRequest;
+import com.errday.kafkahelper.application.dto.kafka.KafkaTopicDescribeResponse;
+import com.errday.kafkahelper.application.dto.kafka.KafkaTopicRequest;
+import com.errday.kafkahelper.application.port.out.kafka.topic.KafkaTopicDescribePort;
+import com.errday.kafkahelper.application.service.kafka.topic.KafkaTopicDescribeService;
+import com.errday.kafkahelper.domain.kafka.KafkaTopic;
+import com.errday.kafkahelper.domain.kafka.KafkaTopicConfig;
+import com.errday.kafkahelper.domain.kafka.KafkaTopicDescribe;
+import com.errday.kafkahelper.domain.kafka.KafkaTopicPartitionDescribe;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

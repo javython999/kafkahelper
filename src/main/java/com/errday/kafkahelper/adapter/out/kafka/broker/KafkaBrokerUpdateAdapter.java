@@ -1,8 +1,10 @@
 package com.errday.kafkahelper.adapter.out.kafka.broker;
 
+import com.errday.kafkahelper.adapter.out.kafka.broker.entity.KafkaBrokerEntity;
+import com.errday.kafkahelper.adapter.out.kafka.broker.entity.KafkaBrokerRepository;
 import com.errday.kafkahelper.application.error.KafkaBrokerNotFoundException;
-import com.errday.kafkahelper.application.port.out.broker.KafkaBrokerUpdatePort;
-import com.errday.kafkahelper.domain.KafkaBroker;
+import com.errday.kafkahelper.application.port.out.kafka.broker.KafkaBrokerUpdatePort;
+import com.errday.kafkahelper.domain.kafka.KafkaBroker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

@@ -1,9 +1,9 @@
 package com.errday.kafkahelper.adapter.out.kafka.topic;
 
 import com.errday.kafkahelper.adapter.out.kafka.KafkaAdminClient;
-import com.errday.kafkahelper.application.port.out.topic.KafkaTopicListPort;
-import com.errday.kafkahelper.domain.KafkaBootStrapServer;
-import com.errday.kafkahelper.domain.KafkaTopic;
+import com.errday.kafkahelper.application.port.out.kafka.topic.KafkaTopicListPort;
+import com.errday.kafkahelper.domain.kafka.KafkaBootStrapServer;
+import com.errday.kafkahelper.domain.kafka.KafkaTopic;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.AdminClient;

@@ -1,9 +1,10 @@
 package com.errday.kafkahelper.application.service.broker;
 
-import com.errday.kafkahelper.application.dto.KafkaBrokerResponse;
+import com.errday.kafkahelper.application.dto.kafka.KafkaBrokerResponse;
 import com.errday.kafkahelper.application.error.KafkaBrokerNotFoundException;
-import com.errday.kafkahelper.application.port.out.broker.KafkaBrokerFindPort;
-import com.errday.kafkahelper.domain.KafkaBroker;
+import com.errday.kafkahelper.application.port.out.kafka.broker.KafkaBrokerFindPort;
+import com.errday.kafkahelper.application.service.kafka.broker.KafkaBrokerFindService;
+import com.errday.kafkahelper.domain.kafka.KafkaBroker;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

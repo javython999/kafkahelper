@@ -1,6 +1,6 @@
 package com.errday.kafkahelper.adapter.out.kafka.util;
 
-import com.errday.kafkahelper.application.dto.KafkaBootstrapServerRequest;
+import com.errday.kafkahelper.application.dto.kafka.KafkaBootstrapServerRequest;
 import com.errday.kafkahelper.adapter.in.web.dto.TopicEditConfig;
 import com.errday.kafkahelper.adapter.in.web.dto.TopicEditRequest;
 import org.junit.jupiter.api.Test;

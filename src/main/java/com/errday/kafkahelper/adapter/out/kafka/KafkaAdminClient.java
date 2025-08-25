@@ -1,6 +1,6 @@
 package com.errday.kafkahelper.adapter.out.kafka;
 
-import com.errday.kafkahelper.domain.KafkaBootStrapServer;
+import com.errday.kafkahelper.domain.kafka.KafkaBootStrapServer;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.springframework.stereotype.Component;
