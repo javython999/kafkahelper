@@ -1,21 +1,18 @@
 package com.errday.kafkahelper.adapter.in.web.config;
 
-import com.errday.kafkahelper.adapter.in.web.interceptor.RequestLogRegisterInterceptor;
-import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.filter.ForwardedHeaderFilter;
 
 @Configuration
-@RequiredArgsConstructor
-public class WebConfig implements WebMvcConfigurer {
+public class WebConfig {
 
-    private final RequestLogRegisterInterceptor requestLogRegisterInterceptor;
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(requestLogRegisterInterceptor)
-                .addPathPatterns("/**")
-                .excludePathPatterns("/css/**",  "/js/**", "/images/**", "/fonts/**", "/favicon.ico");
+    @Bean
+    FilterRegistrationBean<ForwardedHeaderFilter> forwardedHeaderFilter() {
+        FilterRegistrationBean<ForwardedHeaderFilter> filterRegBean = new FilterRegistrationBean<>();
+        filterRegBean.setFilter(new ForwardedHeaderFilter());
+        filterRegBean.setOrder(0);
+        return filterRegBean;
     }
 }
