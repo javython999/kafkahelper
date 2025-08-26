@@ -16,6 +16,6 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(requestLogRegisterInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/css/**",  "/js/**", "/images/**", "/fonts/**");
+                .excludePathPatterns("/css/**",  "/js/**", "/images/**", "/fonts/**", "/favicon.ico");
     }
 }
