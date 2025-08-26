@@ -1,6 +1,6 @@
 # Kafka Helper
 
-## [Kafka-Helper Demo](http://kafka-helper.kro.kr:8080/kafka/brokers)
+## [Kafka-Helper Demo](http://kafka-helper.kro.kr/kafka/brokers)
 
 ## 목적
 
