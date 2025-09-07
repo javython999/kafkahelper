@@ -9,7 +9,7 @@ Spring-Kafka 기반의 **Kafka 브로커 관리 웹 애플리케이션**입니�
 
 ## 구조
 ![Image](https://github.com/user-attachments/assets/1057bce6-643a-44f8-86fd-00467845f8e0)
-<img width="882" height="720" alt="Image" src="" />
+
 ## ✨ 주요 기능
 - **토픽 관리**
     - 생성 / 수정 / 삭제
